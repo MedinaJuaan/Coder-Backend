@@ -1,97 +1,133 @@
-class Product {
- constructor(title, description, price, thumbnail, code, stock) {
-   this.title = title;
-   this.description = description;
-   this.price = price;
-   this.thumbnail = thumbnail;
-   this.code = code;
-   this.stock = stock;
- }
-}
+const fs = require("fs");
 
 class ProductManager {
- constructor() {
-   this.products = [];
- }
+  constructor(path) {
+    this.path = path;
+    this.products = this.loadProducts();
+  }
 
- getProducts() {
-   return this.products;
- }
+  addProduct(product) {
+    product.id = this.generateId();
+    this.products.push(product);
+    this.saveProducts();
+  }
 
- addProduct(title, description, price, thumbnail, code, stock) {
-   const existingProduct = this.products.find(
-     (product) => product.code === code
-   );
+  getProducts() {
+    return this.products;
+  }
 
-   if (existingProduct) {
-     console.log("El codigo del producto ya esta en uso");
-     return null
-   }
+  getProductById(id) {
+    const product = this.products.find((product) => product.id === id);
+    if (!product) {
+      console.log(`No se encontró ningún producto con id: ${id}`);
+    }
+    return product;
+  }
 
-   const id = this.generateId();
+  updateProductById(id, updatedProduct) {
+    const productIndex = this.products.findIndex(
+      (product) => product.id === id
+    );
+    if (productIndex !== -1) {
+      this.products[productIndex] = {
+        ...this.products[productIndex],
+        ...updatedProduct,
+        id: id,
+      };
+     return this.saveProducts();
+    }
+    return ;
+  }
 
-   const product = new Product(
-     title,
-     description,
-     price,
-     thumbnail,
-     code,
-     stock
-   );
-   product.id = id;
-   this.products.push(product);
+  deleteProduct(id) {
+    const productIndex = this.products.findIndex(
+      (product) => product.id === id
+    );
+    if (productIndex !== -1) {
+      this.products.splice(productIndex, 1);
+      this.saveProducts();
+      console.log("Producto eliminado")
+    } else {
+        console.log("El producto que quieres eliminar no existe")
+    }
+  }
 
-   return product;
- }
+  generateId() {
+    const ids = this.products.map((product) => product.id);
+    const maxId = ids.length > 0 ? Math.max(...ids) : 0;
+    return maxId + 1;
+  }
+  loadProducts() {
+    try {
+      const data = fs.readFileSync(this.path, "utf-8");
+      return JSON.parse(data);
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
 
- generateId() {
-   return this.products.length + 1;
- }
-
- getProductById(id) {
-   const product = this.products.find((product) => product.id === id);
- 
-   if (!product) {
-     return "Producto no encontrado!";
-   }
- 
-   return product;
- }
+  saveProducts() {
+    try {
+      fs.writeFileSync(this.path, JSON.stringify(this.products));
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
-const productManager = new ProductManager();
+//Uso
 
-//Se llama a Get Products y devuelve el array vacio
-console.log("GetProducts", productManager.getProducts());
+const productManager = new ProductManager("productos.json");
 
-//Se agrega un producto
-const product1 = productManager.addProduct(
- "producto prueba",
- "Este es un producto prueba",
- 200,
- "Sin imagen",
- "abc123",
- 25
+console.log(
+  "Obtener los productos que devuelve un array vacio,",
+  productManager.getProducts()
 );
 
-//Se llama al producto agregado recientemente
-console.log("Product1", product1);
+// Agregar un producto
+productManager.addProduct({
+  title: 'Mouse',
+  description: 'Mouse inalambrico',
+  price: 100,
+  thumbnail: 'imagen.jpg',
+  code: '1234',
+  stock: 10
+});
+productManager.addProduct({
+  title: 'Monitor',
+  description: 'Monitor 27 pulgadas',
+  price: 300,
+  thumbnail: 'imagen.jpg',
+  code: '12345',
+  stock: 10
+});
+// Obtener todos los productos
+console.log("Obtener todos los productos", productManager.getProducts());
 
-//Se vuelve a llamar a GetProducts y devuelve el array con el producto
-console.log("GetProducts", productManager.getProducts());
+// Obtener un producto por ID
+const product = productManager.getProductById(1);
+if (product) {
+  console.log("Obtener producto por ID", product);
+} else {
+}
 
-//Se intenta agregar un producto con el mismo code
-const product2 = productManager.addProduct(
- "producto prueba",
- "Este es un producto prueba",
- 200,
- "Sin imagen",
- "abc123",
- 25
+// Actualizar un producto por ID
+
+  productManager.updateProductById(2, {
+    title: "Teclado",
+    description: "Teclado inalambrico",
+    price: 300,
+  })
+
+console.log(
+  "Actualizar producto por ID",
+  productManager.getProductById(2)
 );
 
-//Se llama a un producto con id valido
-console.log("Id valido", productManager.getProductById(1));
-
-//Se llama a un producto con un id no valido
-console.log("Id no valido", productManager.getProductById(2));
+// Eliminar un producto por ID
+productManager.removeProductById(1);
+console.log(
+  "Obtener todos los productos con el producto ya eliminado",
+  productManager.getProducts()
+);
