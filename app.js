@@ -126,7 +126,7 @@ console.log(
 );
 
 // Eliminar un producto por ID
-productManager.removeProductById(1);
+productManager.deleteProduct(1);
 console.log(
   "Obtener todos los productos con el producto ya eliminado",
   productManager.getProducts()
