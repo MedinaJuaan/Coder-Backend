@@ -6,7 +6,7 @@
       "price": 50.99,
       "description": "Teclado mecánico con retroiluminación LED y teclas programables.",
       "image": "teclado.jpg"
-    },
+    }, 
     {
       "id": 2,
       "code": "PRD002",
