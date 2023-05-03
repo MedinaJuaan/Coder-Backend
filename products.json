@@ -1,0 +1,81 @@
+[
+    {
+      "id": 1,
+      "code": "PRD001",
+      "name": "Teclado mecánico",
+      "price": 50.99,
+      "description": "Teclado mecánico con retroiluminación LED y teclas programables.",
+      "image": "teclado.jpg"
+    },
+    {
+      "id": 2,
+      "code": "PRD002",
+      "name": "Monitor de 27 pulgadas",
+      "price": 299.99,
+      "description": "Monitor de alta resolución con frecuencia de actualización de 144 Hz.",
+      "image": "monitor.jpg"
+    },
+    {
+      "id": 3,
+      "code": "PRD003",
+      "name": "Mouse inalámbrico",
+      "price": 25.99,
+      "description": "Mouse inalámbrico con sensor óptico de alta precisión y batería recargable.",
+      "image": "mouse.jpg"
+    },
+    {
+      "id": 4,
+      "code": "PRD004",
+      "name": "Disco duro externo",
+      "price": 89.99,
+      "description": "Disco duro externo de 2 TB con conexión USB 3.0 y carcasa de aluminio resistente.",
+      "image": "disco-duro.jpg"
+    },
+    {
+      "id": 5,
+      "code": "PRD005",
+      "name": "Memoria RAM",
+      "price": 79.99,
+      "description": "Módulo de memoria RAM DDR4 de 16 GB con frecuencia de 3200 MHz.",
+      "image": "memoria-ram.jpg"
+    },
+    {
+      "id": 6,
+      "code": "PRD006",
+      "name": "Tarjeta gráfica",
+      "price": 399.99,
+      "description": "Tarjeta gráfica de alta gama con 8 GB de memoria GDDR6 y soporte para Ray Tracing.",
+      "image": "tarjeta-grafica.jpg"
+    },
+    {
+      "id": 7,
+      "code": "PRD007",
+      "name": "Auriculares gaming",
+      "price": 79.99,
+      "description": "Auriculares gaming con sonido envolvente 7.1 y micrófono retráctil.",
+      "image": "auriculares.jpg"
+    },
+    {
+      "id": 8,
+      "code": "PRD008",
+      "name": "Cámara web",
+      "price": 49.99,
+      "description": "Cámara web Full HD con enfoque automático y reducción de ruido de fondo.",
+      "image": "camara-web.jpg"
+    },
+    {
+      "id": 9,
+      "code": "PRD009",
+      "name": "Altavoces Bluetooth",
+      "price": 69.99,
+      "description": "Altavoces portátiles Bluetooth con batería recargable y resistencia al agua.",
+      "image": "altavoces.jpg"
+    },
+    {
+      "id": 10,
+      "code": "PRD010",
+      "name": "Impresora láser",
+      "price": 179.99,
+      "description": "Impresora láser monocromática con conexión Ethernet y velocidad de impresión de 30 páginas por minuto.",
+      "image": "impresora-laser.jpg"
+      }]
