@@ -1,12 +1,14 @@
 const express = require("express");
 const fs = require("fs/promises");
+const path = require("path")
 const app = express();
 const port = 8080;
+const productPath = path.join(__dirname, '../products.json');
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/products", async (req, res) => {
   try {
-    const data = await fs.readFile("../products.json", "utf8");
+    const data = await fs.readFile(productPath, "utf8");
     const products = JSON.parse(data);
     const queryLimit = parseInt(req.query.limit);
     if (queryLimit && queryLimit > 0) {
@@ -22,7 +24,7 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:pid", async (req, res) => {
   try {
-    const data = await fs.readFile("../products.json", "utf8");
+    const data = await fs.readFile(productPath, "utf8");
     const products = JSON.parse(data);
     const product = products.find((p) => p.id === parseInt(req.params.pid));
     if (product) {
