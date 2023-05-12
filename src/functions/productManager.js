@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path")
 const productPath = path.join(__dirname, "/products.json")
+const { v4: uuidv4 } = require('uuid');
+
 class ProductManager {
   constructor() {
     this.products = this.loadProducts();
@@ -15,9 +17,10 @@ class ProductManager {
   getProducts() {
     return this.products;
   }
-
+  
   getProductById(id) {
-    const product = this.products.find((product) => product.id === id);
+    const productId = id; 
+    const product = this.products.find((product) => product.id === productId);
     if (!product) {
       console.log(`No se encontró ningún producto con id: ${id}`);
     }
@@ -26,37 +29,34 @@ class ProductManager {
 
   updateProductById(id, updatedProduct) {
     const productIndex = this.products.findIndex(
-      (product) => product.id === id
+      (product) => product.id == id
     );
     if (productIndex !== -1) {
       this.products[productIndex] = {
         ...this.products[productIndex],
         ...updatedProduct,
-        id: id,
+        id: product[productIndex].id,
       };
-     return this.saveProducts();
+      this.saveProducts();
     }
-    return ;
+    return null;
   }
 
   deleteProduct(id) {
-    const productIndex = this.products.findIndex(
-      (product) => product.id === id
-    );
+    const productIndex = this.products.findIndex((product) => product.id === id);
     if (productIndex !== -1) {
       this.products.splice(productIndex, 1);
       this.saveProducts();
-      console.log("Producto eliminado")
+      console.log("Producto eliminado");
     } else {
-        console.log("El producto que quieres eliminar no existe")
+      throw new Error("El producto que quieres eliminar no existe");
     }
   }
 
   generateId() {
-    const ids = this.products.map((product) => product.id);
-    const maxId = ids.length > 0 ? Math.max(...ids) : 0;
-    return maxId + 1;
+    return uuidv4();
   }
+
   loadProducts() {
     try {
       const data = fs.readFileSync(productPath, "utf-8");
