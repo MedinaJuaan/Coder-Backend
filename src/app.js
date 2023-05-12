@@ -1,15 +1,14 @@
 const express = require("express");
-const fs = require("fs/promises");
-const path = require("path")
+const ProductManager = require("./functions/productManager");
 const app = express();
 const port = 8080;
-const productPath = path.join(__dirname, '../products.json');
+const productManager = new ProductManager(); 
+
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/products", async (req, res) => {
   try {
-    const data = await fs.readFile(productPath, "utf8");
-    const products = JSON.parse(data);
+    const products = productManager.getProducts();
     const queryLimit = parseInt(req.query.limit);
     if (queryLimit && queryLimit > 0) {
       res.json(products.slice(0, queryLimit));
@@ -24,9 +23,8 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:pid", async (req, res) => {
   try {
-    const data = await fs.readFile(productPath, "utf8");
-    const products = JSON.parse(data);
-    const product = products.find((p) => p.id === parseInt(req.params.pid));
+    const productId = parseInt(req.params.pid);
+    const product = productManager.getProductById(productId);
     if (product) {
       res.json(product);
     } else {
@@ -40,4 +38,4 @@ app.get("/products/:pid", async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
-}); 
+});
