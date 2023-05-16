@@ -1,11 +1,15 @@
-const fs = require("fs");
-const path = require("path")
-const productPath = path.join(__dirname, "/products.json")
-const { v4: uuidv4 } = require('uuid');
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const productPath = path.join(__dirname, "products.json");
 
 class ProductManager {
   constructor() {
     this.products = this.loadProducts();
+    this.usedIds = this.products.map((product) => product.id);
   }
 
   addProduct(product) {
@@ -17,10 +21,9 @@ class ProductManager {
   getProducts() {
     return this.products;
   }
-  
+
   getProductById(id) {
-    const productId = id; 
-    const product = this.products.find((product) => product.id === productId);
+    const product = this.products.find((product) => product.id == id);
     if (!product) {
       console.log(`No se encontró ningún producto con id: ${id}`);
     }
@@ -28,14 +31,12 @@ class ProductManager {
   }
 
   updateProductById(id, updatedProduct) {
-    const productIndex = this.products.findIndex(
-      (product) => product.id == id
-    );
+    const productIndex = this.products.findIndex((product) => product.id == id);
     if (productIndex !== -1) {
       this.products[productIndex] = {
         ...this.products[productIndex],
         ...updatedProduct,
-        id: product[productIndex].id,
+        id: this.products[productIndex].id,
       };
       this.saveProducts();
     }
@@ -43,9 +44,10 @@ class ProductManager {
   }
 
   deleteProduct(id) {
-    const productIndex = this.products.findIndex((product) => product.id === id);
+    const productIndex = this.products.findIndex((product) => product.id == id);
     if (productIndex !== -1) {
       this.products.splice(productIndex, 1);
+      this.usedIds = this.products.map((product) => product.id);
       this.saveProducts();
       console.log("Producto eliminado");
     } else {
@@ -54,15 +56,20 @@ class ProductManager {
   }
 
   generateId() {
-    return uuidv4();
+    let id = Math.floor(Math.random() * 30) + 1;
+    while (this.usedIds.includes(id)) {
+      id = Math.floor(Math.random() * 30) + 1;
+    }
+    this.usedIds.push(id);
+    return id;
   }
-
+  
   loadProducts() {
     try {
       const data = fs.readFileSync(productPath, "utf-8");
       return JSON.parse(data);
     } catch (error) {
-      console.error(error);
+      console.error("Error al cargar los productos",error);
       return [];
     }
   }
@@ -71,8 +78,9 @@ class ProductManager {
     try {
       fs.writeFileSync(productPath, JSON.stringify(this.products));
     } catch (error) {
-      console.error(error);
+      console.error("Error al guardar los productos",error);
     }
   }
 }
-module.exports = ProductManager;
+
+export default ProductManager;
