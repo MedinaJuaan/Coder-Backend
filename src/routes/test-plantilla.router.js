@@ -3,8 +3,6 @@ import ProductManager from "../functions/productManager.js";
 const productManager = new ProductManager();
 const products = productManager.getProducts();
 
-
-
 export const testPantillaProducts= express.Router()
 
 testPantillaProducts.get("/",  (req, res) => {
