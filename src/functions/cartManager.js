@@ -5,8 +5,8 @@ import ProductManager from "./productManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const cartPath = path.join(__dirname, "carts.json");
+
 class CartManager {
   constructor() {
     this.carts = this.loadCarts();
