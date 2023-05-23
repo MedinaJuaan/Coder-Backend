@@ -1,0 +1,134 @@
+
+<div class="container">
+<div>
+  <h2 class="text-center">Agrega un producto</h2>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 float-end">
+        <form action="/api/products" method="post" id="form">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="title" class="form-label">Nombre</label>
+
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                name="title"
+                placeholder="Titulo"
+                id="form-title"
+                required
+              />
+
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="description" class="form-label">Descripción</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                name="description"
+                placeholder="Descripción del producto"
+                id="form-desc"
+                required
+              />
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="price" class="form-label">Precio</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                name="price"
+                placeholder="Ingrese el monto"
+                id="form-price"
+                required
+              />
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="code" class="col-form-label">Código</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                name="code"
+                placeholder="xx000xx"
+                id="form-code"
+                required
+              />
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="stock" class="col-form-label">Stock</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                name="stock"
+                placeholder="123"
+                id="form-stock"
+                required
+              />
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="image" class="col-form-label">Imagen</label>
+            </div>
+            <div class="col-auto">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                name="image"
+                placeholder="url img"
+                id="form-imgurl"
+                required
+              />
+            </div>
+          </div>
+          <div class="align-items-center">
+            <button type="submit" id="sendBtn" class="btn btn-success">Crear
+              producto</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="product-list" class="row gx-5">
+  {{#each products}}
+    <div class="card" style="width: 18rem;">
+      <img src={{this.image}} class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.description}}</p>
+      </div>
+      <div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Precio: {{this.price}}</li>
+          <li class="list-group-item">Código: {{this.code}}</li>
+          <div class="card-body">
+            <button onclick="deleteProduct({{this.id}})" class="btn btn-danger">Borrar</button>
+          </div>
+        </ul>
+      </div>
+    </div>
+  {{/each}}
+</div>
+</div>
+
+
+
+

@@ -1,7 +1,6 @@
 import express from "express";
 import ProductManager from "../functions/productManager.js";
 const productManager = new ProductManager();
-import { uploader } from "../utils.js";
 
 export const productsRouter = express.Router();
 
@@ -106,16 +105,10 @@ productsRouter.delete("/:pid", async (req, res) => {
   }
 });
 
-productsRouter.post("/",uploader.single("file"),async (req, res) => {
-  if (!req.file) {return res.status(400).json({
-    status: "error",
-    msg: "antes suba un archivo para podercrear el producto",
-    data: {},
-  })
-  } else {
+productsRouter.post("/",async (req, res) => {
     try {
       const { title, description, code, price, stock, category, } = req.body;
-      if (!title || !description || !code || !price || !stock || !category) {
+      if (!title || !description || !code || !price || !stock ) {
         res.status(400).json({
           status: "error",
           msg: "Todos los campos son obligatorios",
@@ -144,5 +137,4 @@ productsRouter.post("/",uploader.single("file"),async (req, res) => {
         .status(500)
         .json({ status: "error", msg: "Error en el servidor", data: {} });
     }
-  }
 });

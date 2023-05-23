@@ -1,7 +1,6 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const productPath = path.join(__dirname, "products.json");
@@ -12,7 +11,25 @@ class ProductManager {
     this.usedIds = this.products.map((product) => product.id);
   }
 
+  isCodeUnique(code) {
+    return !this.products.some((product) => product.code === code);
+  }
+ 
+  isValidURL(url) {
+    const pattern = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-@?^=%&amp;/~\+#])?$/;
+    return pattern.test(url);
+  }
+
   addProduct(product) {
+    if (product.code && !this.isCodeUnique(product.code)) {
+      console.log(`Ya existe un producto con el código: ${product.code}`);
+      return;
+    }
+  
+    if (product.image && !this.isValidURL(product.image)) {
+      product.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Oo36VlX72uvK1izFe7dCb3Vk8SUEACrzLSPaMEiEdQ&s'; 
+    }
+  
     product.id = this.generateId();
     this.products.push(product);
     this.saveProducts();
