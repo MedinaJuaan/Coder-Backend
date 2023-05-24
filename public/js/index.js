@@ -28,8 +28,8 @@ socket.on("arrayOfProducts", (products) => {
   products.forEach((p) => {
     productList += `<div id="product-list" class="row gx-5">
     <div class="container">
-      <table class="table table-striped">
-        <thead>
+    <table class="table table-striped" id="product-list">
+    <thead>
           <tr>
             <th>Imagen</th>
             <th>Título</th>
@@ -49,7 +49,7 @@ socket.on("arrayOfProducts", (products) => {
             <td>${p.price}</td>
             <td>${p.code}</td>
             <td>
-              <button onclick="deleteProduct({{this.id}})" class="btn btn-danger">Borrar</button>
+              <button onclick="deleteProduct(${p.id})" class="btn btn-danger">Borrar</button>
             </td>
           </tr>
         </tbody>
