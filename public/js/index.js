@@ -59,7 +59,6 @@ socket.on("arrayOfProducts", (products) => {
   });
   list.innerHTML = productList;
 });
-
 deleteProduct = (id) => {
   socket.emit("deleteProduct", id);
 };
