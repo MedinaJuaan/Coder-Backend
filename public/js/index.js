@@ -26,14 +26,36 @@ socket.on("arrayOfProducts", (products) => {
   const list = document.getElementById("product-list");
   let productList = "";
   products.forEach((p) => {
-    productList += `<ul>
-                    <img src=${p.image}>
-                    <li>Nombre: ${p.title}</li>
-                    <li>Descripción: ${p.description}</li>
-                    <li>Precio: ${p.price}</li>
-                    <li>Código: ${p.code}</li>
-                    <li><button onclick="deleteProduct(${p.id})">Borrar</button></li>
-                </ul>`;
+    productList += `<div id="product-list" class="row gx-5">
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Código</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="${p.image}" class="img-thumbnail" alt="..." />
+            </td>
+            <td>${p.title}</td>
+            <td>${p.description}</td>
+            <td>${p.price}</td>
+            <td>${p.code}</td>
+            <td>
+              <button onclick="deleteProduct({{this.id}})" class="btn btn-danger">Borrar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>`;
   });
   list.innerHTML = productList;
 });

@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const productPath = path.join(__dirname, "products.json");
+const imageDefault = '/imagedefault.png';
 
 class ProductManager {
   constructor() {
@@ -27,7 +28,7 @@ class ProductManager {
     }
   
     if (product.image && !this.isValidURL(product.image)) {
-      product.image = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Oo36VlX72uvK1izFe7dCb3Vk8SUEACrzLSPaMEiEdQ&s'; 
+      product.image = imageDefault
     }
   
     product.id = this.generateId();
