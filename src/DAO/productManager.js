@@ -4,9 +4,9 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const productPath = path.join(__dirname, "products.json");
-const imageDefault = '/imagedefault.png';
+const imageDefault = "/imagedefault.png";
 
-class ProductManager {
+export class ProductManager {
   constructor() {
     this.products = this.loadProducts();
     this.usedIds = this.products.map((product) => product.id);
@@ -15,9 +15,10 @@ class ProductManager {
   isCodeUnique(code) {
     return !this.products.some((product) => product.code === code);
   }
- 
+
   isValidURL(url) {
-    const pattern = /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-@?^=%&amp;/~\+#])?$/;
+    const pattern =
+      /^(http|https):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-@?^=%&amp;/~\+#])?$/;
     return pattern.test(url);
   }
 
@@ -26,11 +27,11 @@ class ProductManager {
       console.log(`Ya existe un producto con el código: ${product.code}`);
       return;
     }
-  
+
     if (product.image && !this.isValidURL(product.image)) {
-      product.image = imageDefault
+      product.image = imageDefault;
     }
-  
+
     product.id = this.generateId();
     this.products.push(product);
     this.saveProducts();
@@ -81,13 +82,13 @@ class ProductManager {
     this.usedIds.push(id);
     return id;
   }
-  
+
   loadProducts() {
     try {
       const data = fs.readFileSync(productPath, "utf-8");
       return JSON.parse(data);
     } catch (error) {
-      console.error("Error al cargar los productos",error);
+      console.error("Error al cargar los productos", error);
       return [];
     }
   }
@@ -96,9 +97,9 @@ class ProductManager {
     try {
       fs.writeFileSync(productPath, JSON.stringify(this.products));
     } catch (error) {
-      console.error("Error al guardar los productos",error);
+      console.error("Error al guardar los productos", error);
     }
   }
 }
 
-export default ProductManager;
+

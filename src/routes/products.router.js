@@ -1,5 +1,5 @@
 import express from "express";
-import ProductManager from "../functions/productManager.js";
+import { ProductManager } from "../DAO/productManager.js";
 const productManager = new ProductManager();
 
 export const productsRouter = express.Router();
@@ -35,7 +35,6 @@ productsRouter.put("/:pid", async (req, res) => {
     const product = productManager.getProductById(productId);
     if (product) {
       const productModified = req.body;
-
       if (productModified.id && productModified.id !== productId) {
         return res.status(400).json({
           status: "error",
