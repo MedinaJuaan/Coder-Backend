@@ -1,9 +1,7 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const productPath = path.join(__dirname, "products.json");
+import { __dirname } from "../config.js";
+const productPath = path.join(__dirname, "/DAO/products.json");
 const imageDefault = "/imagedefault.png";
 
 export class ProductManager {

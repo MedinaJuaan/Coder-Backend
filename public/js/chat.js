@@ -1,6 +1,7 @@
 const socket = io();
 
 const chatBox = document.getElementById("input-msg");
+
 let emailIngresado = "";
 
 async function main() {
@@ -17,7 +18,6 @@ async function main() {
       }
     },
   });
-
   emailIngresado = email;
 }
 
@@ -30,10 +30,12 @@ chatBox.addEventListener("keyup", ({ key }) => {
       user: emailIngresado,
     });
     chatBox.value = "";
+    console.log(chatBox.value)
   }
 });
 
 socket.on("listado_de_msgs", (msgs) => {
+  console.log(msgs);
   const divMsgs = document.getElementById("div-msgs");
   let formato = "";
   msgs.forEach((msg) => {

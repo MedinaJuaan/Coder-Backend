@@ -7,12 +7,13 @@ import { cartsRouter } from "./routes/carts.router.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import {homeRouter} from "./routes/home.router.js"
 import {realTimeProducts} from "./routes/realtimeproducts.js"
-import { testChatRouter } from "./routes/testChat.router.js";
+import { chatRouter } from "./routes/chat.router.js";
 import { chatSocketServer } from "./utils/chatSocketServer.js";
 import {productsSocketServer} from "./utils/productsSocketServer.js"
+import { productsMongoRouter } from "./routes/productsMongo.router.js";
+
 const app = express();
 const port = 8080;
-
 connectMongo();
 
 app.use(express.json());
@@ -36,10 +37,8 @@ app.use("/api/carts", cartsRouter);
 app.use("/api/users", usersRouter);
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
-app.use("/test-chat", testChatRouter);
-
-
-
+app.use("/chat", chatRouter);
+app.use("/productsMongo", productsMongoRouter)
 app.get("*", (_, res) => {
   return res
     .status(404)

@@ -2,7 +2,7 @@ import express from "express";
 export const usersRouter = express.Router();
 import { UserModel } from "../DAO/models/users.model.js";
 
-usersRouter.get("/", async (req, res) => {
+usersRouter.get("/", async (_, res) => {
   try {
     const users = await UserModel.find({});
     return res.status(200).json({
@@ -14,7 +14,7 @@ usersRouter.get("/", async (req, res) => {
     console.log(e);
     return res.status(500).json({
       status: "error",
-      msg: "something went wrong :(",
+      msg: "error en el servidor",
       data: {},
     });
   }
@@ -25,25 +25,25 @@ usersRouter.post("/", async (req, res) => {
   try {
     if (!firstName || !lastName || !email) {
       console.log(
-        "validation error: please complete firstName, lastname and email."
+        "Error de validacion: Por favor complete todos los campos"
       );
       return res.status(400).json({
         status: "error",
-        msg: "please complete firstName, lastname and email.",
+        msg: "Por favor complete todos los campos",
         data: {},
       });
     }
     const userCreated = await UserModel.create({ firstName, lastName, email });
     return res.status(201).json({
       status: "success",
-      msg: "user created",
+      msg: "usuario creado",
       data: userCreated,
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: "error",
-      msg: "something went wrong :(",
+      msg: "error en el servidor",
       data: {},
     });
   }
@@ -55,11 +55,11 @@ usersRouter.put("/:id", async (req, res) => {
   try {
     if (!firstName || !lastName || !email || !id) {
       console.log(
-        "validation error: please complete firstName, lastname and email."
+        "Error de validacion: Por favor complete todos los campos"
       );
       return res.status(400).json({
         status: "error",
-        msg: "please complete firstName, lastname and email.",
+        msg: "Por favor complete todos los campos",
         data: {},
       });
     }
@@ -69,14 +69,14 @@ usersRouter.put("/:id", async (req, res) => {
     );
     return res.status(201).json({
       status: "success",
-      msg: "user uptaded",
+      msg: "usuario modificado",
       data: userUptaded,
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: "error",
-      msg: "something went wrong :(",
+      msg: "error en el servidor",
       data: {},
     });
   }
@@ -88,14 +88,14 @@ usersRouter.delete("/:id", async (req, res) => {
     const deleted = await UserModel.deleteOne({ _id: id });
     return res.status(200).json({
       status: "success",
-      msg: "user deleted",
+      msg: "usuario eliminado",
       data: {},
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: "error",
-      msg: "something went wrong :(",
+      msg: "error en el servidor",
       data: {},
     });
   }
