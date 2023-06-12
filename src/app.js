@@ -10,8 +10,7 @@ import {realTimeProducts} from "./routes/realtimeproducts.js"
 import { chatRouter } from "./routes/chat.router.js";
 import { chatSocketServer } from "./utils/chatSocketServer.js";
 import {productsSocketServer} from "./utils/productsSocketServer.js"
-import { productsMongoRouter } from "./routes/productsMongo.router.js";
-
+import { dbProducts } from "./routes/dbProducts.router.js";
 const app = express();
 const port = 8080;
 connectMongo();
@@ -31,14 +30,13 @@ const httpServer = app.listen(port, () => {
 chatSocketServer(httpServer);
 productsSocketServer(httpServer)
 
-//Routes
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/users", usersRouter);
 app.use("/home", homeRouter);
 app.use("/realTimeProducts", realTimeProducts);
 app.use("/chat", chatRouter);
-app.use("/productsMongo", productsMongoRouter)
+app.use("/api/dbproducts", dbProducts)
 app.get("*", (_, res) => {
   return res
     .status(404)
