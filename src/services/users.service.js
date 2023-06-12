@@ -5,31 +5,27 @@ class UsersService {
     const users = await UserModel.find({});
     return users;
   }
-  async createUser({ firstName, lastName, email }) {
-    const userCreated = await UserModel.create({
-      firstName,
-      lastName,
-      email,
-    });
 
-    return userCreated;
+  async getUserById(_id) {
+    const user = await UserModel.findOne({ _id });
+    return user;
   }
-  async updateUser({ _id, firstName, lastName, email }) {
-    const userUptaded = await UserModel.updateOne(
-      {
-        _id: _id,
-      },
-      {
-        firstName,
-        lastName,
-        email,
-      }
-    );
-    return userUptaded;
-  }
+
   async deleteUser(_id) {
-    const userDeleted = await UserModel.deleteOne({ _id });
-    return userDeleted;
+    const deletedUser = await UserModel.findOneAndDelete({ _id });
+    return deletedUser;
+  }
+
+  async updateUser(_id, updatedData) {
+    const updatedUser = await UserModel.findOneAndUpdate({ _id }, updatedData, {
+      new: true,
+    });
+    return updatedUser;
+  }
+
+  async createUser(userData) {
+    const newUser = await UserModel.create(userData);
+    return newUser;
   }
 }
 

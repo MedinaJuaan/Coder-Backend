@@ -21,26 +21,11 @@ async updateProduct(_id, updatedData) {
     );
     return productUpdated;
   }
-
-async createProduct({
-  description,
-  code,
-  price,
-  stock,
-  category,
-  title,
-}) {
-  const newProduct = await ProductModel.create({
-    description,
-    code,
-    price,
-    stock,
-    category,
-    title,
-  });
-  return newProduct;
-}
-
+  
+  async createProduct(newProduct) {
+    const createdProduct = await ProductModel.create(newProduct);
+    return createdProduct;
+  }
 }
 
 export const productService = new ProductService
