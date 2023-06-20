@@ -1,0 +1,33 @@
+<div class="text-center">
+<h1>Listado de productos</h1>
+
+</div>
+<div class="row gx-5">
+
+{{#each productsPages}}
+    <div class="card" style="width: 18rem;">
+      <img src={{this.imageUrl}} class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">{{this.title}}</h5>
+        <p class="card-text">{{this.description}}</p>
+      </div>
+      <div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Precio: {{this.price}}</li>
+          <li class="list-group-item">Categoria: {{this.category}}</li>
+        </ul>
+      </div>
+    </div>
+{{/each}}
+</div>
+<p class="text-center">
+  {{#if hasPrevPage}}
+    <a style="text-decoration: none" href="/html/dbproducts?pages={{prevPage}}">Anterior</a>
+  {{/if}}
+  pagina {{page}} de
+  {{totalPages}}
+    {{#if hasNextPage}}
+    <a style="text-decoration: none" href="/html/dbproducts?pages={{nextPage}}">Siguiente</a>
+  {{/if}}
+
+</p>
