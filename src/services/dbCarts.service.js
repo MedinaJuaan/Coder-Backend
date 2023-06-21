@@ -1,7 +1,6 @@
 import { CartModel } from "../DAO/models/dbcarts.model.js";
 
 class CartService {
-  
   async createCart(productId) {
     const newCart = await CartModel.create({ productId });
     return newCart;
@@ -13,11 +12,16 @@ class CartService {
   }
 
   async getCartById(cartId) {
-    const cart = await CartModel.findById(cartId).populate({
-      path: "products.productId",
-      select: "-__v -_id -code -stock "
-    });
-    return cart;
+    const cart = await CartModel.findById(cartId).populate("products.productId");
+    const cartProducts = cart.products.map((product) => ({
+      title: product.productId.title,
+      description: product.productId.description,
+      price: product.productId.price,
+      category: product.productId.category,
+      imageUrl: product.productId.imageUrl,
+    }));
+    console.log(cartProducts)
+    return cartProducts;
   }
 
   async deleteCartProducts(cartId) {

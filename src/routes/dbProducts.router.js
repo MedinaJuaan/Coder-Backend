@@ -2,28 +2,14 @@ import express from "express";
 import { productService } from "../services/dbProducts.service.js";
 export const dbProducts = express.Router();
 
-dbProducts.get("/", async (req, res) => {
+dbProducts.get('/', async (req, res) => {
   try {
-    const products = await productService.getProducts({});
-    const queryLimit = parseInt(req.query.limit);
-    if (queryLimit && queryLimit > 0) {
-      res.status(200).json({
-        status: "success",
-        msg: `Todos los productos hasta el ${queryLimit}`,
-        payload: products.slice(0, queryLimit),
-      });
-    } else {
-      res.status(200).json({
-        status: "success",
-        msg: "Todos los productos",
-        payload: products,
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .send({ status: "error", msg: "Error en el servidor", payload: {} });
+      const queryParams = req.query;
+      const response = await productService.getProducts(queryParams);
+      return res.status(200).json(response);
+  } catch (e) {
+      console.log(e);
+      return res.status(500).render('server-error');
   }
 });
 

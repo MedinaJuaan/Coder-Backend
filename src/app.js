@@ -13,6 +13,7 @@ import { productsSocketServer } from "./utils/productsSocketServer.js";
 import { dbProducts } from "./routes/dbProducts.router.js";
 import { dbCarts } from "./routes/dbCarts.router.js";
 import { dbHtmlProducts } from "./routes/dbHtmlProducts.router.js";
+import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
 const app = express();
 const port = 8080;
 connectMongo();
@@ -40,6 +41,7 @@ app.use("/realTimeProducts", realTimeProducts);
 app.use("/chat", chatRouter);
 app.use("/api/dbproducts", dbProducts);
 app.use("/html/dbproducts", dbHtmlProducts);
+app.use("/html/dbcarts", dbHtmlCarts);
 app.use("/api/dbcarts", dbCarts);
 app.get("*", (_, res) => {
   return res
