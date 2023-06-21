@@ -4,9 +4,9 @@ export const dbHtmlCarts = express.Router();
 
 dbHtmlCarts.get("/:cid", async (req, res) => {
   try {
-    const cartId = req.params.id;
-    const products = await cartService.getCartById(cartId);
-    return res.status(200).render("carts",  products );
+    const cid = req.params.cid; 
+    const products = await cartService.getCartById(cid);
+    return res.status(200).render("carts", { products }); 
   } catch (error) {
     console.error(error);
     return res.status(500).render("server-error");

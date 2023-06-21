@@ -21,22 +21,6 @@ dbCarts.get("/", async (req, res) => {
   }
 });
 
-dbCarts.get("/:cid"), async (req, res)=>{
-  try {
-    const {cid} = req.params;
-    const cart = await cartService.get(cid);
-    const simplifiedCart = cart.products.map((item) => {
-        return {
-            title: item.product.title,
-            price: item.product.price,
-            quantity: item.quantity,
-        };
-    });
-    res.render('carts', {cart: simplifiedCart});
-} catch (error) {
-    next(error);
-}
-}
 
 dbCarts.get("/:cid", async (req, res) => {
   try {

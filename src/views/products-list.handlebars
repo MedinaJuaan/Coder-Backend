@@ -4,9 +4,9 @@
 </div>
 <div class="row gx-5">
 
-{{#each productsPages}}
+{{#each products}}
     <div class="card" style="width: 18rem;">
-      <img src={{this.imageUrl}} class="card-img-top" alt="..." />
+      <img src={{this.image}} class="card-img-top" alt="..." />
       <div class="card-body">
         <h5 class="card-title">{{this.title}}</h5>
         <p class="card-text">{{this.description}}</p>
@@ -22,12 +22,12 @@
 </div>
 <p class="text-center">
   {{#if hasPrevPage}}
-    <a style="text-decoration: none" href="/html/dbproducts?pages={{prevPage}}">Anterior</a>
+    <a style="text-decoration: none" href="/html/dbproducts?page={{prevPage}}">Anterior</a>
   {{/if}}
   pagina {{page}} de
   {{totalPages}}
     {{#if hasNextPage}}
-    <a style="text-decoration: none" href="/html/dbproducts?pages={{nextPage}}">Siguiente</a>
+    <a style="text-decoration: none" href="/html/dbproducts?page={{nextPage}}">Siguiente</a>
   {{/if}}
 
 </p>

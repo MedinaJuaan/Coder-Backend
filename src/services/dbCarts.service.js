@@ -11,21 +11,21 @@ class CartService {
     return carts;
   }
 
-  async getCartById(cartId) {
-    const cart = await CartModel.findById(cartId).populate("products.productId");
+  async getCartById(cid) {
+    const cart = await CartModel.findById(cid).populate("products.productId");
     const cartProducts = cart.products.map((product) => ({
+      _id: product.productId._id.toString(),
       title: product.productId.title,
       description: product.productId.description,
       price: product.productId.price,
       category: product.productId.category,
-      imageUrl: product.productId.imageUrl,
+      image: product.productId.image,
     }));
-    console.log(cartProducts)
     return cartProducts;
   }
 
-  async deleteCartProducts(cartId) {
-    const cart = await CartModel.findById(cartId);
+  async deleteCartProducts(cid) {
+    const cart = await CartModel.findById(cid);
     if (!cart) {
       return null;
     }
@@ -34,8 +34,8 @@ class CartService {
     return cart;
   }
 
-  async addProduct(cartId, productId) {
-    const cart = await CartModel.findById(cartId);
+  async addProduct(cid, productId) {
+    const cart = await CartModel.findById(cid);
     if (!cart) {
       return null;
     }
@@ -54,8 +54,8 @@ class CartService {
     return cart;
   }
 
-  async deleteProduct(cartId, productId) {
-    const cart = await CartModel.findById(cartId);
+  async deleteProduct(cid, productId) {
+    const cart = await CartModel.findById(cid);
     if (!cart) {
       return null;
     }
@@ -69,8 +69,8 @@ class CartService {
     return cart;
   }
 
-  async updateProductQuantity(cartId, productId, quantity) {
-    const cart = await CartModel.findById(cartId);
+  async updateProductQuantity(cid, productId, quantity) {
+    const cart = await CartModel.findById(cid);
     if (!cart) {
       return null;
     }

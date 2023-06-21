@@ -1,45 +1,6 @@
 import { ProductModel } from "../DAO/models/dbproducts.model.js";
 
 class ProductService {
-
-  async getProductsPaginated(pages) {
-    try {
-      const products = await ProductModel.paginate(
-        {},
-        { limit: 20, page: pages }
-      );
-      const {
-        totalPages,
-        page,
-        hasPrevPage,
-        hasNextPage,
-        prevPage,
-        nextPage,
-        docs: productsDocs,
-      } = products;
-
-      const productsPages = productsDocs.map((product) => ({
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        category: product.category,
-        imageUrl: product.imageUrl,
-      }));
-      return {
-        totalPages,
-        page,
-        hasPrevPage,
-        hasNextPage,
-        prevPage,
-        nextPage,
-        productsPages,
-      };
-    } catch (error) {
-      console.error("Error al obtener los productos:", error);
-      throw error;
-    }
-  }
-
   async getProducts(queryParams) {
     const { limit = 10, page = 1, sort } = queryParams;
     const options = {
@@ -78,7 +39,7 @@ class ProductService {
     const deleteProduct = await ProductModel.findOneAndDelete({ _id });
     return deleteProduct;
   }
-  
+
   async updateProduct(_id, updatedData) {
     const productUpdated = await ProductModel.findOneAndUpdate(
       { _id },
