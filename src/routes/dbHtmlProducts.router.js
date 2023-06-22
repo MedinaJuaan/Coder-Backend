@@ -6,7 +6,6 @@ export const dbHtmlProducts = express.Router();
 dbHtmlProducts.get('/', async (req, res) => {
   try {
       const queryParams = req.query;
-      console.log(queryParams)
       const response = await productService.getProducts(queryParams);
       const data = {
         products: response.payload.map(product => ({

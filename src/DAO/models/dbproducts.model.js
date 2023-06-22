@@ -8,7 +8,7 @@ const productSchema = new Schema({
   code: { type: String, required: true, max: 100 },
   stock: { type: Number, required: true, max: 100 },
   category: { type: String, required: true, max: 100 },
-  imageUrl: { type: String, required: true },
+  image: { type: String, required: true },
 });
 
 productSchema.plugin(mongoosePaginate);
