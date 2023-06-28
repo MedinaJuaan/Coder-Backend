@@ -1,32 +1,83 @@
 import { UserModel } from "../DAO/models/users.model.js";
 
 class UsersService {
-  async getUsers() {
-    const users = await UserModel.find({});
-    return users;
-  }
+	async findUser(email, password) {
+		const user = await UserModel.findOne(
+			{ email: email, password: password },
+			{
+				_id: true,
+				email: true,
+				username: true,
+				password: true,
+				rol: true,
+			}
+		);
+		return user || false;
+	}
 
-  async getUserById(_id) {
-    const user = await UserModel.findOne({ _id });
-    return user;
-  }
+	async findUserByEmail(email) {
+		const user = await UserModel.findOne(
+			{ email: email },
+			{
+				_id: true,
+				email: true,
+				username: true,
+				password: true,
+				rol: true,
+			}
+		);
+		return user || false;
+	}
 
-  async deleteUser(_id) {
-    const deletedUser = await UserModel.findOneAndDelete({ _id });
-    return deletedUser;
-  }
+	async getAll() {
+		const users = await UserModel.find(
+			{},
+			{
+				_id: true,
+				email: true,
+				username: true,
+				password: true,
+				rol: true,
+			}
+		);
+		return users;
+	}
+	async create(email, username, password, rol) {
+		const existingUser = await this.findUserByEmail(email);
 
-  async updateUser(_id, updatedData) {
-    const updatedUser = await UserModel.findOneAndUpdate({ _id }, updatedData, {
-      new: true,
-    });
-    return updatedUser;
-  }
+		if (existingUser) {
+			return "El usuario ya se encuentra registrado";
+		}
 
-  async createUser(userData) {
-    const newUser = await UserModel.create(userData);
-    return newUser;
-  }
+		const userCreated = await UserModel.create({
+			email,
+			username,
+			password,
+			rol,
+		});
+
+		return userCreated;
+	}
+	async updateOne({ _id, email, username, password, rol }) {
+		const userUptaded = await UserModel.updateOne(
+			{
+				_id: _id,
+			},
+			{
+				email,
+				username,
+				password,
+				rol,
+			}
+		);
+		return userUptaded;
+	}
+
+	async deleteOne(_id) {
+		const result = await UserModel.deleteOne({ _id: _id });
+		return result;
+	}
+
 }
 
 export const usersService = new UsersService();

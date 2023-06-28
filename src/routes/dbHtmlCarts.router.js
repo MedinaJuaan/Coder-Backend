@@ -1,8 +1,9 @@
 import express from "express";
 import { cartService } from "../services/dbCarts.service.js";
 export const dbHtmlCarts = express.Router();
+import checkLogin from "../utils/checklogin.js";
 
-dbHtmlCarts.get("/:cid", async (req, res) => {
+dbHtmlCarts.get("/:cid",checkLogin, async (req, res) => {
   try {
     const cid = req.params.cid; 
     const products = await cartService.getCartById(cid);

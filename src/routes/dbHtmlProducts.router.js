@@ -1,9 +1,10 @@
 import express from "express";
 import { productService } from "../services/dbProducts.service.js";
+import checkLogin from "../utils/checklogin.js";
 export const dbHtmlProducts = express.Router();
 
 
-dbHtmlProducts.get('/', async (req, res) => {
+dbHtmlProducts.get('/', checkLogin, async (req, res) => {
   try {
       const queryParams = req.query;
       const response = await productService.getProducts(queryParams);
@@ -23,6 +24,8 @@ dbHtmlProducts.get('/', async (req, res) => {
         totalPages: response.totalPages,
         hasNextPage: response.hasNextPage,
         nextPage: response.nextPage,
+        username: req.session.user,
+        rol: req.session.rol,
       };
       return res.status(200).render("products-list", data);
     } catch (e) {

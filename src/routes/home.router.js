@@ -1,14 +1,13 @@
 import express from "express";
-import { ProductManager } from "../DAO/productManager.js";
 export const homeRouter = express.Router();
-const productManager = new ProductManager();
 
 homeRouter.get("/", async (req, res) => {
   try {
-    const products = await productManager.getProducts();
-    return res.status(200).render("home", { products });
+    const username = req.session.user;
+    const rol = req.session.rol;
+    const message = req.query.message;
+    return res.status(200).render("home", { username, rol, message });
   } catch (error) {
-    res.status(500).json({ message: "error" });
+    res.status(500).json({ message: "Error" });
   }
 });
-
