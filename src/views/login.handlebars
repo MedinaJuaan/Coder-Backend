@@ -1,25 +1,42 @@
 <div class="d-flex justify-content-center">
-	    <form action="/api/sessions/login" method="post"
-		  style="width: 300px; padding: 10px;">
-
-          <p class="text-center">Por favor ingrese su email y contraseña</p>
-
-          <div class="mb-4">
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="inputEmailRegister" name="email" placeholder="Email">
-              <label for="inputEmailRegister">Email</label>
-            </div>
-
-            <div class="form-floating">
-              <input type="password" class="form-control" id="inputPasswordLogin" name="password" placeholder="Password">
-              <label for="inputPasswordLogin">Contraseña</label>
-            </div>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-block">Acceder</button>
-
-          <div class="text-center mt-3">
-            <p>No estas registrado? <a href="/api/sessions/register">Registrarse</a></p>
-          </div>
-        </form>
-	</div>
+  <form
+    action="/api/sessions/login"
+    method="post"
+    style="width: 300px; padding: 10px;"
+  >
+    <div class="text-center mb-3">
+      <p>Ingresar con github</p>
+      <button type="button" class="btn btn-link btn-floating mx-1">
+        <a href="/api/sessions/github"> Ingresar </a>
+      </button>
+    </div>
+    <p class="text-center">Por favor ingrese su email y contraseña</p>
+    <div class="mb-4">
+      <div class="form-floating mb-3">
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmailRegister"
+          name="email"
+          placeholder="Email"
+        />
+        <label for="inputEmailRegister">Email</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="password"
+          class="form-control"
+          id="inputPasswordLogin"
+          name="password"
+          placeholder="Password"
+        />
+        <label for="inputPasswordLogin">Contraseña</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Acceder</button>
+    <div class="text-center mt-3">
+      <p>No estas registrado?
+        <a href="/api/sessions/register">Registrarse</a></p>
+    </div>
+  </form>
+</div>

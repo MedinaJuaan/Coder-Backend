@@ -1,21 +1,55 @@
 <div class="d-flex justify-content-center">
-  <form action="/api/sessions/register" method="post" style="width: 300px; padding: 10px;">
+  <form
+    action="/api/sessions/register"
+    method="post"
+    style="width: 300px; padding: 10px;"
+  >
+    <div class="text-center mb-3">
+      <p>Registrarse con github</p>
+      <button type="button" class="btn btn-link btn-floating mx-1">
+        <a href="/api/sessions/github"> Ingresar </a>
+      </button>
+    </div>
     <p class="text-center">Complete los datos para registrarse</p>
 
     <div class="mb-4 text-center">
       <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="inputEmailRegister" name="email" placeholder="Password" />
-        <label for="input-passwordLogin"><i class="bi bi-envelope-at me-1"></i>Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="inputEmailRegister"
+          name="email"
+          placeholder="Password"
+        />
+        <label for="input-passwordLogin"><i
+            class="bi bi-envelope-at me-1"
+          ></i>Email</label>
       </div>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="inputUserRegister" name="username" placeholder="User" />
-        <label for="input-userLogin"><i class="bi bi-person-fill-lock me-1"></i>Usuario</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputUserRegister"
+          name="username"
+          placeholder="User"
+        />
+        <label for="input-userLogin"><i
+            class="bi bi-person-fill-lock me-1"
+          ></i>Usuario</label>
       </div>
 
       <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="inputPasswordRegister" name="password" placeholder="Password" />
-        <label for="input-passwordLogin"><i class="bi bi-eye-slash me-1"></i>Contraseña</label>
+        <input
+          type="password"
+          class="form-control"
+          id="inputPasswordRegister"
+          name="password"
+          placeholder="Password"
+        />
+        <label for="input-passwordLogin"><i
+            class="bi bi-eye-slash me-1"
+          ></i>Contraseña</label>
       </div>
     </div>
 
