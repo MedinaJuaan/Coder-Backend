@@ -18,8 +18,8 @@ import { productsRouter } from "./routes/products.router.js";
 import { realTimeProducts } from "./routes/realtimeproducts.js";
 import { registerRouter } from "./routes/register.router.js";
 import { usersRouter } from "./routes/usersRouter.js";
-import { chatSocketServer } from "./utils/chatSocketServer.js";
 import { connectMongo } from "./utils/dbConnection.js";
+import { socketServer } from "./utils/socketServer.js";
 
 const app = express();
 const port = 8080;
@@ -50,8 +50,7 @@ const httpServer = app.listen(port, () => {
   console.log(`Example app listening http://localhost:${port}/home`);
 });
 
-chatSocketServer(httpServer);
-
+socketServer(httpServer)
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
