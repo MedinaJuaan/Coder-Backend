@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
   <form
-    action="/api/sessions/login"
+    action="/api/sessions/auth/login"
     method="post"
     style="width: 300px; padding: 10px;"
   >
@@ -19,6 +19,7 @@
           id="inputEmailRegister"
           name="email"
           placeholder="Email"
+          required
         />
         <label for="inputEmailRegister">Email</label>
       </div>
@@ -29,6 +30,7 @@
           id="inputPasswordLogin"
           name="password"
           placeholder="Password"
+          required
         />
         <label for="inputPasswordLogin">Contraseña</label>
       </div>
@@ -36,7 +38,7 @@
     <button type="submit" class="btn btn-primary btn-block">Acceder</button>
     <div class="text-center mt-3">
       <p>No estas registrado?
-        <a href="/api/sessions/register">Registrarse</a></p>
+        <a href="/api/sessions/auth/register">Registrarse</a></p>
     </div>
   </form>
 </div>

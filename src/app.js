@@ -12,11 +12,9 @@ import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
 import { dbHtmlProducts } from "./routes/dbHtmlProducts.router.js";
 import { dbProducts } from "./routes/dbProducts.router.js";
 import { homeRouter } from "./routes/home.router.js";
-import { loginRouter } from "./routes/login.router.js";
-import { logoutRouter } from "./routes/logout.router.js";
+import { authRouter } from "./routes/auth.router.js";
 import { productsRouter } from "./routes/products.router.js";
 import { realTimeProducts } from "./routes/realtimeproducts.js";
-import { registerRouter } from "./routes/register.router.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { socketServer } from "./utils/socketServer.js";
@@ -50,7 +48,7 @@ const httpServer = app.listen(port, () => {
   console.log(`Example app listening http://localhost:${port}/home`);
 });
 
-socketServer(httpServer)
+socketServer(httpServer);
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,9 +66,7 @@ app.use("/api/dbproducts", dbProducts);
 app.use("/html/dbproducts", dbHtmlProducts);
 app.use("/html/dbcarts", dbHtmlCarts);
 app.use("/api/dbcarts", dbCarts);
-app.use("/api/sessions/login", loginRouter);
-app.use("/api/sessions/register", registerRouter);
-app.use("/api/sessions/logout", logoutRouter);
+app.use("/api/sessions/auth", authRouter);
 app.get(
   "/api/sessions/github",
   passport.authenticate("github", { scope: ["user:email"] })
