@@ -24,9 +24,10 @@ dbHtmlProducts.get('/', checkLogin, async (req, res) => {
         totalPages: response.totalPages,
         hasNextPage: response.hasNextPage,
         nextPage: response.nextPage,
-        username: req.session.user.username,
-        rol: req.session.user.rol,
+        username: req.session.user,
+        rol: req.session.rol,
       };
+  console.log(data);
       return res.status(200).render("products-list", data);
     } catch (e) {
       console.log(e);

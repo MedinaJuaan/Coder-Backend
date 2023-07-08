@@ -17,18 +17,18 @@ authRouter.get("/login", async (req, res) => {
 });
 
 authRouter.post(
-	"/login",
-	passport.authenticate("login", { failureRedirect: "/error-auth" }),
-	async (req, res) => {
-	  if (!req.user) {
-		res.send("Usuario o contraseña incorrectos");
-	  } else {
-		req.session.user = { username: req.user.username, rol: req.user.rol };
-		return res.redirect("/html/dbproducts");
-	  }
-	}
-  );
-
+  "/login",
+  passport.authenticate("login", { failureRedirect: "/error-auth" }),
+  async (req, res) => {
+    if (!req.user) {
+      res.send("Usuario o contraseña incorrectos");
+    } else {
+      req.session.user = req.user.username;
+      req.session.rol = req.user.rol;
+      return res.redirect("/html/dbproducts");
+    }
+  }
+);
 
 authRouter.get("/register", async (req, res) => {
   try {
@@ -40,13 +40,15 @@ authRouter.get("/register", async (req, res) => {
       .send({ status: "error", msg: "Error en el servidor", error: err });
   }
 });
-authRouter.post("/register", 
+authRouter.post(
+  "/register",
   passport.authenticate("register", { failureRedirect: "/error-auth" }),
   (req, res) => {
-    res.redirect("/home?message=Usuario creado correctamente. Inicie sesión para continuar.");
+    res.redirect(
+      "/home?message=Usuario creado correctamente. Inicie sesión para continuar."
+    );
   }
 );
-
 
 authRouter.get("/logout", (req, res) => {
   req.session.destroy((err) => {
