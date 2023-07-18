@@ -1,23 +1,25 @@
 import { UserModel } from "../DAO/models/users.model.js";
-import { isValidPassword } from "../utils/bcrypt.js";
+import { CartModel } from "../DAO/models/dbcarts.model.js";
+import { createHash, isValidPassword } from "../utils/bcrypt.js";
 
 class UsersService {
-  async findUser(email, password) {
+  async findUserByEmailPassword(email, password) {
     const user = await UserModel.findOne(
       { email: email },
       {
         _id: true,
         email: true,
-        username: true,
+        firstName: true,
         password: true,
         rol: true,
       }
     );
+
     if (user && isValidPassword(password, user.password)) {
       return user;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   async findUserByEmail(email) {
@@ -47,18 +49,23 @@ class UsersService {
     );
     return users;
   }
-  async create(email, username, password, rol) {
+
+  async create({ firstName, lastName, email, age, password }) {
     const existingUser = await this.findUserByEmail(email);
 
     if (existingUser) {
-      return "El usuario ya se encuentra registrado";
+      throw "User already exists";
     }
+    const cart = await CartModel.create({});
 
     const userCreated = await UserModel.create({
+      firstName,
+      lastName,
       email,
-      username,
-      password,
-      rol,
+      age,
+      password: createHash(password),
+      cartID: cart._id,
+      rol: "user",
     });
 
     return userCreated;
@@ -83,5 +90,4 @@ class UsersService {
     return result;
   }
 }
-
 export const usersService = new UsersService();

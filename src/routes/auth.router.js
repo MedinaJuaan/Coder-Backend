@@ -1,6 +1,4 @@
 import express from "express";
-import { usersService } from "../services/users.service.js";
-import { createHash } from "../utils/bcrypt.js";
 import passport from "passport";
 
 export const authRouter = express.Router();
@@ -21,14 +19,28 @@ authRouter.post(
   passport.authenticate("login", { failureRedirect: "/error-auth" }),
   async (req, res) => {
     if (!req.user) {
-      res.send("Usuario o contraseña incorrectos");
-    } else {
-      req.session.user = req.user.username;
-      req.session.rol = req.user.rol;
-      return res.redirect("/html/dbproducts");
+      return res.json({ error: "invalid credentials" });
     }
+    req.session.user = {
+      _id: req.user._id.toString(),
+      email: req.user.email,
+      firstName: req.user.firstName,
+      rol: req.user.rol,
+    };
+    return res.redirect("/html/dbproducts");
   }
 );
+
+authRouter.get("/current", (req, res) => {
+  try {
+    return res.status(200).json({ user: req.session.user });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(501)
+      .send({ status: "error", msg: "Error en el servidor", error: err });
+  }
+});
 
 authRouter.get("/register", async (req, res) => {
   try {
@@ -44,9 +56,16 @@ authRouter.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/error-auth" }),
   (req, res) => {
-    res.redirect(
-      "/home?message=Usuario creado correctamente. Inicie sesión para continuar."
-    );
+    if (!req.user) {
+      return res.json({ error: "something went wrong" });
+    }
+    req.session.user = {
+      _id: req.user._id.toString(),
+      email: req.user.email,
+      firstName: req.user.firstName,
+      rol: req.user.rol,
+    };
+    return res.redirect("/html/dbproducts");
   }
 );
 

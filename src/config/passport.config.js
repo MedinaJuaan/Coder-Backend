@@ -3,7 +3,8 @@ import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import local from "passport-local";
 import { UserModel } from "../DAO/models/users.model.js";
-import { createHash, isValidPassword } from "../utils/bcrypt.js";
+import { usersService } from "../services/users.service.js";
+import { isValidPassword } from "../utils/bcrypt.js";
 
 const LocalStrategy = local.Strategy;
 export function iniPassport() {
@@ -63,24 +64,27 @@ export function iniPassport() {
   );
 
   passport.use(
-    'login',
-    new LocalStrategy({ usernameField: 'email' }, async (username, password, done) => {
-      try {
-        const user = await UserModel.findOne({ email: username });
-        if (!user) {
-          console.log('User Not Found with username (email) ' + username);
-          return done(null, false);
-        }
-        if (!isValidPassword(password, user.password)) {
-          console.log('Invalid Password');
-          return done(null, false);
-        }
+    "login",
+    new LocalStrategy(
+      { usernameField: "email" },
+      async (username, password, done) => {
+        try {
+          const user = await UserModel.findOne({ email: username });
+          if (!user) {
+            console.log("User Not Found with username (email) " + username);
+            return done(null, false);
+          }
+          if (!isValidPassword(password, user.password)) {
+            console.log("Invalid Password");
+            return done(null, false);
+          }
 
-        return done(null, user);
-      } catch (err) {
-        return done(err);
+          return done(null, user);
+        } catch (err) {
+          return done(err);
+        }
       }
-    })
+    )
   );
 
   passport.use(
@@ -90,37 +94,39 @@ export function iniPassport() {
         passReqToCallback: true,
         usernameField: "email",
       },
-      async (req, email, password, done) => {
+      async (req, username, password, done) => {
         try {
-          const { username } = req.body;
-  
-          let user = await UserModel.findOne({ email });
-          if (user) {
+          const { firstName, lastName, age } = req.body;
+
+          const userExist = await usersService.findUserByEmail(username);
+
+          if (userExist) {
             console.log("User already exists");
-            return done(null, false, { message: "El usuario ya existe" });
+            return done(null, false);
           }
-  
-  
-          const newUser = {
-            email,
-            username,
-            rol: "user",
-            password: createHash(password),
-          };
-  
-          const userCreated = await UserModel.create(newUser);
-  
-          console.log("User Registration successful");
-          return done(null, userCreated);
-        } catch (error) {
+
+          const userCreated = await usersService.create({
+            firstName,
+            lastName,
+            email: username,
+            age,
+            password,
+          });
+          console.log("User Registration succesful");
+          return done(null, {
+            _id: userCreated._id.toString(),
+            firstName: userCreated.firstName,
+            email: userCreated.email,
+            rol: userCreated.rol,
+          });
+        } catch (e) {
           console.log("Error in register");
-          console.log(error);
-          return done(error);
+          console.log(e);
+          return done(e);
         }
       }
     )
   );
-
 
   passport.serializeUser((user, done) => {
     done(null, user._id);

@@ -31,7 +31,7 @@ app.use(
       mongoUrl:
         "mongodb+srv://medinajuaan:Isabella2602@cluster0.4qbgeko.mongodb.net/?retryWrites=true&w=majority",
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-      ttl: 15,
+      ttl: 99999,
     }),
   })
 );
