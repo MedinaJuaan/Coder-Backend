@@ -29,6 +29,7 @@ dbHtmlProducts.get('/', checkLogin, async (req, res) => {
         username,
         rol,
       };
+        // console.log(data);
       return res.status(200).render("products-list", data);
     } catch (e) {
       console.log(e);

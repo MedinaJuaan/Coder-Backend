@@ -75,8 +75,13 @@ app.get(
   "/api/sessions/githubcallback",
   passport.authenticate("github", { failureRedirect: "/error-auth" }),
   (req, res) => {
-    req.session.user = req.user.username;
-    req.session.rol = req.user.rol;
+    req.session.user = {
+      email: req.user.email,
+      firstName: req.user.firstName,
+      rol: req.user.rol,
+    };
+    console.log(req.session.user);
+
     res.redirect("/html/dbproducts");
   }
 );

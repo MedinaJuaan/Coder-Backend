@@ -19,8 +19,6 @@ export function iniPassport() {
       },
 
       async (accesToken, _, profile, done) => {
-        console.log(profile);
-
         try {
           const res = await fetch("https://api.github.com/user/emails", {
             headers: {
@@ -29,6 +27,8 @@ export function iniPassport() {
               "X-Github-Api-Version": "2022-11-28",
             },
           });
+          // console.log(profile)
+
 
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
@@ -39,10 +39,12 @@ export function iniPassport() {
 
           profile.email = emailDetail.email;
           let user = await UserModel.findOne({ email: profile.email });
+          console.log(profile._json.login)
+
           if (!user) {
             const newUser = {
               email: profile.email,
-              username: profile._json.name || profile._json.login || "noname",
+              firstName: profile._json.login || "noname",
               rol: "user",
               password: "nopass",
             };
