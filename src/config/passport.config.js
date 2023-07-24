@@ -5,7 +5,7 @@ import local from "passport-local";
 import { UserModel } from "../DAO/models/users.model.js";
 import { usersService } from "../services/users.service.js";
 import { isValidPassword } from "../utils/bcrypt.js";
-
+import env from "./enviroment.config.js"
 const LocalStrategy = local.Strategy;
 export function iniPassport() {
   passport.use(
@@ -13,9 +13,9 @@ export function iniPassport() {
 
     new GitHubStrategy(
       {
-        clientID: "Iv1.2f05d710bb535b24",
-        clientSecret: "df724608fbe92dc2335d98819ccba5dd3321c7f1",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        clientID: env.clientID,
+        clientSecret: env.clientSecret,
+        callbackURL: env.callbackURL,
       },
 
       async (accesToken, _, profile, done) => {

@@ -11,7 +11,8 @@ export const UserModel = model(
       type: Schema.Types.ObjectId,
       ref: "carts",
       required: true,
-      default: () => new mongoose.Types.ObjectId(),    },
+      default: () => new mongoose.Types.ObjectId(),
+    },
     rol: { type: String, default: "user", required: true },
   })
 );

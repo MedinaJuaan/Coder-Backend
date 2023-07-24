@@ -18,9 +18,10 @@ import { realTimeProducts } from "./routes/realtimeproducts.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { socketServer } from "./utils/socketServer.js";
+import env from "./config/enviroment.config.js";
 
 const app = express();
-const port = 8080;
+const port = env.port;
 connectMongo();
 app.use(
   session({
@@ -28,8 +29,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://medinajuaan:Isabella2602@cluster0.4qbgeko.mongodb.net/?retryWrites=true&w=majority",
+      mongoUrl:env.mongoUrl,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 99999,
     }),
