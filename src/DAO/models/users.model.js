@@ -6,5 +6,6 @@ export const UserModel = model(
     username: { type: String, required: true, max: 100 },
     password: { type: String, required: true, max: 100 },
     rol: { type: String, default: "user", required: false, max: 100 },
+    cart: { type: Schema.Types.ObjectId, ref: "carts" },
   })
 );

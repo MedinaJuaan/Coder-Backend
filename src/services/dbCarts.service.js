@@ -33,7 +33,10 @@ class CartService {
     await cart.save();
     return cart;
   }
-
+  async getCartByUserId(userId) {
+    const cart = await CartModel.findOne({ user: userId });
+    return cart;
+  }
   async addProduct(cid, productId) {
     const cart = await CartModel.findById(cid);
     if (!cart) {

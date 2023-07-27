@@ -1,5 +1,6 @@
 import { UserModel } from "../DAO/models/users.model.js";
 import { isValidPassword } from "../utils/bcrypt.js";
+import { cartService } from "./dbCarts.service.js";
 
 class UsersService {
   async findUser(email, password) {
@@ -11,6 +12,7 @@ class UsersService {
         username: true,
         password: true,
         rol: true,
+        cart: true,
       }
     );
     if (user && isValidPassword(password, user.password)) {
@@ -29,6 +31,7 @@ class UsersService {
         username: true,
         password: true,
         rol: true,
+        cart: true,
       }
     );
     return user || false;
@@ -43,10 +46,12 @@ class UsersService {
         username: true,
         password: true,
         rol: true,
+        cart: true,
       }
     );
     return users;
   }
+
   async create(email, username, password, rol) {
     const existingUser = await this.findUserByEmail(email);
 
@@ -54,15 +59,21 @@ class UsersService {
       return "El usuario ya se encuentra registrado";
     }
 
-    const userCreated = await UserModel.create({
+    const newUser = await UserModel.create({
       email,
       username,
       password,
       rol,
     });
 
-    return userCreated;
+    const newCart = await cartService.createCart(newUser._id);
+
+    newUser.cart = newCart._id;
+    await newUser.save();
+
+    return newUser;
   }
+
   async updateOne({ _id, email, username, password, rol }) {
     const userUptaded = await UserModel.updateOne(
       {
