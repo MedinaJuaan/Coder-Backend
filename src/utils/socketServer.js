@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import { ProductManager } from "../DAO/productManager.js";
-import { MsgModel } from "../DAO/models/msgs.model.js";
+import { ProductManager } from "../DAO/helpers/productManager.js";
+import { MsgModel } from "../DAO/models/mongoose/msgs.mongoose.js";
 
 export function socketServer(httpServer) {
   const socketServer = new Server(httpServer);

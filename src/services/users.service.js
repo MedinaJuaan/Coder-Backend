@@ -1,5 +1,5 @@
-import { UserModel } from "../DAO/models/users.model.js";
-import { CartModel } from "../DAO/models/dbcarts.model.js";
+import { UserModel } from "../DAO/models/mongoose/users.mongoose.js";
+import { CartModel } from "../DAO/models/mongoose/carts.mongoose.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 
 class UsersService {

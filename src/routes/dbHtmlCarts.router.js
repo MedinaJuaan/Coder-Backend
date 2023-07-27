@@ -1,7 +1,7 @@
 import express from "express";
-import { cartService } from "../services/dbCarts.service.js";
+import { cartService } from "../services/carts.service.js";
 export const dbHtmlCarts = express.Router();
-import checkLogin from "../utils/checklogin.js";
+import checkLogin from "../middlewares/checklogin.js";
 
 dbHtmlCarts.get("/:cid",checkLogin, async (req, res) => {
   try {

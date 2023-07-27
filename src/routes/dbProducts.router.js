@@ -1,11 +1,11 @@
 import express from "express";
-import { productService } from "../services/dbProducts.service.js";
+import { productsService } from "../services/products.service.js";
 export const dbProducts = express.Router();
 
 dbProducts.get('/', async (req, res) => {
   try {
       const queryParams = req.query;
-      const response = await productService.getProducts(queryParams);
+      const response = await productsService.getProducts(queryParams);
       return res.status(200).json(response);
   } catch (e) {
       console.log(e);

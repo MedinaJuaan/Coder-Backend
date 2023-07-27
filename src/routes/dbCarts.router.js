@@ -1,5 +1,5 @@
 import express from "express";
-import { cartService } from "../services/dbCarts.service.js";
+import { cartService } from "../services/carts.service.js";
 export const dbCarts = express.Router();
 
 dbCarts.get("/", async (req, res) => {

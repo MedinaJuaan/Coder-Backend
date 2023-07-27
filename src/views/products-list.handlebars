@@ -35,12 +35,10 @@
 </div>
 <p class="text-center">
   {{#if hasPrevPage}}
-    <a style="text-decoration: none" href="/html/dbproducts?page={{prevPage}}">Anterior</a>
+  <a href="/html/dbproducts?page={{prevPage}}" style="text-decoration: none">Anterior</a>
   {{/if}}
-  pagina {{page}} de
-  {{totalPages}}
-    {{#if hasNextPage}}
-    <a style="text-decoration: none" href="/html/dbproducts?page={{nextPage}}">Siguiente</a>
+  pagina {{page}} de {{totalPages}}
+  {{#if hasNextPage}}
+  <a href="/html/dbproducts?page={{nextPage}}" style="text-decoration: none">Siguiente</a>
   {{/if}}
-
 </p>

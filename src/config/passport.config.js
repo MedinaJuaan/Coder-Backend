@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import local from "passport-local";
-import { UserModel } from "../DAO/models/users.model.js";
+import { UserModel } from "../DAO/models/mongoose/users.mongoose.js";
 import { usersService } from "../services/users.service.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import env from "./enviroment.config.js"
