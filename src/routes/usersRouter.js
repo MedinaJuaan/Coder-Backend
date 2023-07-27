@@ -4,7 +4,7 @@ export const usersRouter = express.Router();
 
 usersRouter.get("/", async (_, res) => {
   try {
-    const users = await usersService.getUsers();
+    const users = await userService.getUsers();
     return res.status(200).json({
       status: "success",
       msg: "listado de usuarios",

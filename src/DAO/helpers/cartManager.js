@@ -1,9 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { ProductManager } from "../DAO/productManager.js";
-import { __dirname } from "../config.js";
+import { ProductManager } from "./productManager.js";
+import { __dirname } from "../../config.js";
 
-const cartPath = path.join(__dirname, "/DAO/carts.json");
+const cartPath = path.join(__dirname, "/DAO/helpers/carts.json");
 class CartManager {
   constructor() {
     this.carts = this.loadCarts();

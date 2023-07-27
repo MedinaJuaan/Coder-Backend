@@ -1,4 +1,5 @@
 import { connect } from "mongoose";
+import env from "../config/enviroment.config.js";
 export async function connectMongo() {
   try {
     await connect(

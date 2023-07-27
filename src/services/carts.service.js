@@ -1,4 +1,4 @@
-import { CartModel } from "../DAO/models/dbcarts.model.js";
+import { CartModel } from "../DAO/models/mongoose/carts.mongoose.js";
 
 class CartService {
   async createCart(productId) {

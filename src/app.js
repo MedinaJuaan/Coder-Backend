@@ -12,14 +12,13 @@ import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
 import { dbHtmlProducts } from "./routes/dbHtmlProducts.router.js";
 import { dbProducts } from "./routes/dbProducts.router.js";
 import { homeRouter } from "./routes/home.router.js";
-import { loginRouter } from "./routes/login.router.js";
-import { logoutRouter } from "./routes/logout.router.js";
+import { authRouter } from "./routes/auth.router.js";
 import { productsRouter } from "./routes/products.router.js";
 import { realTimeProducts } from "./routes/realtimeproducts.js";
-import { registerRouter } from "./routes/register.router.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { socketServer } from "./utils/socketServer.js";
+import env from "./config/enviroment.config.js";
 
 const app = express();
 const port = 8080;
@@ -30,10 +29,9 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://medinajuaan:Isabella2602@cluster0.4qbgeko.mongodb.net/?retryWrites=true&w=majority",
+      mongoUrl: "mongodb+srv://medinajuaan:Isabella2602@cluster0.4qbgeko.mongodb.net/?retryWrites=true&w=majority",
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-      ttl: 15,
+      ttl: 99999,
     }),
   })
 );
@@ -50,7 +48,7 @@ const httpServer = app.listen(port, () => {
   console.log(`Example app listening http://localhost:${port}/home`);
 });
 
-socketServer(httpServer)
+socketServer(httpServer);
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,9 +66,7 @@ app.use("/api/dbproducts", dbProducts);
 app.use("/html/dbproducts", dbHtmlProducts);
 app.use("/html/dbcarts", dbHtmlCarts);
 app.use("/api/dbcarts", dbCarts);
-app.use("/api/sessions/login", loginRouter);
-app.use("/api/sessions/register", registerRouter);
-app.use("/api/sessions/logout", logoutRouter);
+app.use("/api/sessions/auth", authRouter);
 app.get(
   "/api/sessions/github",
   passport.authenticate("github", { scope: ["user:email"] })
@@ -79,8 +75,13 @@ app.get(
   "/api/sessions/githubcallback",
   passport.authenticate("github", { failureRedirect: "/error-auth" }),
   (req, res) => {
-    req.session.user = req.user.username;
-    req.session.rol = req.user.rol;
+    req.session.user = {
+      email: req.user.email,
+      firstName: req.user.firstName,
+      rol: req.user.rol,
+    };
+    console.log(req.session.user);
+
     res.redirect("/html/dbproducts");
   }
 );
