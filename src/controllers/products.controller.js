@@ -133,10 +133,10 @@ class ProductsController {
   }
 
   async createProduct(req, res) {
-    const { description, code, price, stock, category, title } = req.body;
+    const { description, code, price, stock, category, title , image} = req.body;
 
     try {
-      if (!description || !code || !price || !stock || !category || !title) {
+      if (!description || !code || !price || !stock || !category || !title || !image) {
         console.log("Error de validación: Por favor completa todos los campos");
         return res.status(400).json({
           status: "error",
@@ -152,6 +152,7 @@ class ProductsController {
         stock,
         category,
         title,
+        image
       });
 
       return res.status(201).json({

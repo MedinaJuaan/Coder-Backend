@@ -1,94 +1,37 @@
-import { CartModel } from "../DAO/models/mongoose/carts.mongoose.js";
+import { cartsModel } from "../DAO/models/carts.model.js";
 
-class CartService {
+class CartsService {
   async createCart(productId) {
-    const newCart = await CartModel.create({ productId });
-    return newCart;
+    return cartsModel.createCart(productId);
   }
 
   async getAllCarts() {
-    const carts = await CartModel.find({});
-    return carts;
+    return cartsModel.getAllCarts();
   }
 
   async getCartById(cid) {
-    const cart = await CartModel.findById(cid).populate("products.productId");
-    const cartProducts = cart.products.map((product) => ({
-      _id: product.productId._id.toString(),
-      title: product.productId.title,
-      description: product.productId.description,
-      price: product.productId.price,
-      category: product.productId.category,
-      image: product.productId.image,
-    }));
-    return cartProducts;
+    return cartsModel.getCartById(cid);
   }
 
   async deleteCartProducts(cid) {
-    const cart = await CartModel.findById(cid);
-    if (!cart) {
-      return null;
-    }
-    cart.products = [];
-    await cart.save();
-    return cart;
+    return cartsModel.deleteCartProducts(cid);
   }
+
   async getCartByUserId(userId) {
-    const cart = await CartModel.findOne({ user: userId });
-    return cart;
+    return cartsModel.getCartByUserId(userId);
   }
+
   async addProduct(cid, productId) {
-    const cart = await CartModel.findById(cid);
-    if (!cart) {
-      return null;
-    }
-
-    const existingProduct = cart.products.find((product) =>
-      product.productId.equals(productId)
-    );
-
-    if (existingProduct) {
-      existingProduct.quantity += 1;
-    } else {
-      cart.products.push({ productId, quantity: 1 });
-    }
-
-    await cart.save();
-    return cart;
+    return cartsModel.addProduct(cid, productId);
   }
 
   async deleteProduct(cid, productId) {
-    const cart = await CartModel.findById(cid);
-    if (!cart) {
-      return null;
-    }
-    const productIndex = cart.products.findIndex(
-      (product) => product.productId.toString() === productId
-    );
-    if (productIndex !== -1) {
-      cart.products.splice(productIndex, 1);
-      await cart.save();
-    }
-    return cart;
+    return cartsModel.deleteProduct(cid, productId);
   }
 
   async updateProductQuantity(cid, productId, quantity) {
-    const cart = await CartModel.findById(cid);
-    if (!cart) {
-      return null;
-    }
-
-    const product = cart.products.find(
-      (product) => product.productId.toString() === productId
-    );
-
-    if (product) {
-      product.quantity = quantity;
-      await cart.save();
-    }
-
-    return cart;
+    return cartsModel.updateProductQuantity(cid, productId, quantity);
   }
 }
 
-export const cartService = new CartService();
+export const cartsService = new CartsService();

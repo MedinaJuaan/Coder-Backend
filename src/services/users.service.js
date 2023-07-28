@@ -1,10 +1,56 @@
-import { UserModel } from "../DAO/models/mongoose/users.mongoose.js";
-import { CartModel } from "../DAO/models/mongoose/carts.mongoose.js";
+import { usersModel } from "../DAO/models/users.model.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
 
 class UsersService {
+  async getUserById(_id) {
+    const user = await usersModel.getUserById(_id);
+    return user;
+  }
+
+  async getAll() {
+    const users = await usersModel.getAll({}, { password: false });
+    return users;
+  }
+
+  async create({ firstName, lastName, email, age, password }) {
+    const existingUser = await this.findUserByEmail(email);
+
+    if (existingUser) {
+      throw "User already exists";
+    }
+
+    const userCreated = await usersModel.createUser({
+      firstName,
+      lastName,
+      email,
+      age,
+      password: createHash(password),
+      rol: "user",
+    });
+
+    return userCreated;
+  }
+
+  async updateUser(_id, update) {
+    const userUpdated = await usersModel.updateUser(_id, update, {
+      new: true,
+      runValidators: true,
+    });
+
+    return userUpdated;
+  }
+
+  async deleteUser(_id) {
+    await usersModel.deleteUser(_id);
+  }
+
+  async findUserByEmail(email) {
+    const user = await usersModel.findUserByEmail({ email });
+    return user;
+  }
+
   async findUserByEmailPassword(email, password) {
-    const user = await UserModel.findOne(
+    const user = await usersModel.findUserByEmail(
       { email: email },
       {
         _id: true,
@@ -21,73 +67,6 @@ class UsersService {
 
     return false;
   }
-
-  async findUserByEmail(email) {
-    const user = await UserModel.findOne(
-      { email: email },
-      {
-        _id: true,
-        email: true,
-        username: true,
-        password: true,
-        rol: true,
-      }
-    );
-    return user || false;
-  }
-
-  async getAll() {
-    const users = await UserModel.find(
-      {},
-      {
-        _id: true,
-        email: true,
-        username: true,
-        password: true,
-        rol: true,
-      }
-    );
-    return users;
-  }
-
-  async create({ firstName, lastName, email, age, password }) {
-    const existingUser = await this.findUserByEmail(email);
-
-    if (existingUser) {
-      throw "User already exists";
-    }
-    const cart = await CartModel.create({});
-
-    const userCreated = await UserModel.create({
-      firstName,
-      lastName,
-      email,
-      age,
-      password: createHash(password),
-      cartID: cart._id,
-      rol: "user",
-    });
-
-    return userCreated;
-  }
-  async updateOne({ _id, email, username, password, rol }) {
-    const userUptaded = await UserModel.updateOne(
-      {
-        _id: _id,
-      },
-      {
-        email,
-        username,
-        password,
-        rol,
-      }
-    );
-    return userUptaded;
-  }
-
-  async deleteOne(_id) {
-    const result = await UserModel.deleteOne({ _id: _id });
-    return result;
-  }
 }
+
 export const usersService = new UsersService();

@@ -8,7 +8,7 @@ import { iniPassport } from "./config/passport.config.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { chatRouter } from "./routes/chat.router.js";
 import { dbCarts } from "./routes/dbCarts.router.js";
-import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
+// import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
 import { dbHtmlProducts } from "./routes/dbHtmlProducts.router.js";
 import { dbProducts } from "./routes/dbProducts.router.js";
 import { homeRouter } from "./routes/home.router.js";
@@ -21,7 +21,7 @@ import { socketServer } from "./utils/socketServer.js";
 import env from "./config/enviroment.config.js";
 
 const app = express();
-const port = 8080;
+const port = env.port;
 connectMongo();
 app.use(
   session({
@@ -29,7 +29,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl: "mongodb+srv://medinajuaan:Isabella2602@cluster0.4qbgeko.mongodb.net/?retryWrites=true&w=majority",
+      mongoUrl: env.mongoUrl,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 99999,
     }),
@@ -64,7 +64,7 @@ app.get("/error-auth", (_, res) => {
 });
 app.use("/api/dbproducts", dbProducts);
 app.use("/html/dbproducts", dbHtmlProducts);
-app.use("/html/dbcarts", dbHtmlCarts);
+// app.use("/html/dbcarts", dbHtmlCarts);
 app.use("/api/dbcarts", dbCarts);
 app.use("/api/sessions/auth", authRouter);
 app.get(

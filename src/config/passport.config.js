@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import local from "passport-local";
-import { UserModel } from "../DAO/models/mongoose/users.mongoose.js";
+import { MongooseUsersModel } from "../DAO/models/mongoose/users.mongoose.js";
 import { usersService } from "../services/users.service.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import env from "./enviroment.config.js"
@@ -13,9 +13,9 @@ export function iniPassport() {
 
     new GitHubStrategy(
       {
-        clientID: "Iv1.2f05d710bb535b24",
-        clientSecret: "df724608fbe92dc2335d98819ccba5dd3321c7f1",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback",
+        clientID: env.clientID,
+        clientSecret: env.clientSecret,
+        callbackURL: env.callbackURL,
       },
 
       async (accesToken, _, profile, done) => {
@@ -38,7 +38,7 @@ export function iniPassport() {
           }
 
           profile.email = emailDetail.email;
-          let user = await UserModel.findOne({ email: profile.email });
+          let user = await MongooseUsersModel.findOne({ email: profile.email });
           console.log(profile._json.login)
 
           if (!user) {
@@ -49,7 +49,7 @@ export function iniPassport() {
               password: "nopass",
             };
 
-            let userCreated = await UserModel.create(newUser);
+            let userCreated = await MongooseUsersModel.create(newUser);
             console.log("User Registration succesful");
             return done(null, userCreated);
           } else {
@@ -71,7 +71,7 @@ export function iniPassport() {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await UserModel.findOne({ email: username });
+          const user = await MongooseUsersModel.findOne({ email: username });
           if (!user) {
             console.log("User Not Found with username (email) " + username);
             return done(null, false);
@@ -134,7 +134,7 @@ export function iniPassport() {
     done(null, user._id);
   });
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
+    let user = await MongooseUsersModel.findById(id);
     done(null, user);
   });
 }

@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-export const UserModel = model(
+export const MongooseUsersModel = model(
   "users",
   new Schema({
     firstName: { type: String, required: false, max: 100 },
