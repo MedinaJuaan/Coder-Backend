@@ -53,8 +53,10 @@ class UsersModel {
   }
 
   async findUserByEmail(email) {
+    const userEmail = String(email);
+  
     const user = await MongooseUsersModel.findOne(
-      { email: email },
+      { email: userEmail }, 
       {
         _id: true,
         email: true,
@@ -63,7 +65,6 @@ class UsersModel {
         rol: true,
       }
     );
-    console.log(user)
     return user || false;
   }
 

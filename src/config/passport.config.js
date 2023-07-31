@@ -96,31 +96,35 @@ export function iniPassport() {
         passReqToCallback: true,
         usernameField: "email",
       },
-      async (req, username, password, done) => {
+      async (req, email, password, done) => {
         try {
           const { firstName, lastName, age } = req.body;
-
-          const userExist = await usersService.findUserByEmail(username);
-
+  
+          const userExist = await usersService.findUserByEmail(email);
+  
           if (userExist) {
             console.log("User already exists");
             return done(null, false);
           }
-
+  
           const userCreated = await usersService.create({
             firstName,
             lastName,
-            email: username,
+            email,
             age,
             password,
           });
-          console.log("User Registration succesful");
-          return done(null, {
+  
+          console.log("User Registration successful");
+  
+          const serializedUser = {
             _id: userCreated._id.toString(),
             firstName: userCreated.firstName,
             email: userCreated.email,
             rol: userCreated.rol,
-          });
+          };
+  
+          return done(null, serializedUser);
         } catch (e) {
           console.log("Error in register");
           console.log(e);
@@ -129,12 +133,25 @@ export function iniPassport() {
       }
     )
   );
-
+  
   passport.serializeUser((user, done) => {
     done(null, user._id);
   });
+  
   passport.deserializeUser(async (id, done) => {
-    let user = await MongooseUsersModel.findById(id);
-    done(null, user);
+    try {
+      let user = await usersService.getUserById(id);
+  
+      if (!user) {
+        console.log("User not found in the database");
+        return done(null, false);
+      }
+  
+      done(null, user);
+    } catch (e) {
+      console.log("Error in deserializeUser");
+      console.log(e);
+      return done(e);
+    }
   });
 }
