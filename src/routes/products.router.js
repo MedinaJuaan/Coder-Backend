@@ -1,12 +1,12 @@
 import express from "express";
-import { ProductManager } from "../DAO/helpers/productManager.js";
+import { ProductManager } from "../DAO/fileStore/productManager.js";
 const productManager = new ProductManager();
 
 export const productsRouter = express.Router();
 
 productsRouter.get("/", async (req, res) => {
   try {
-    const products = productManager.getProducts();
+    const products = productManager.get();
     const queryLimit = parseInt(req.query.limit);
     if (queryLimit && queryLimit > 0) {
       res.status(200).json({

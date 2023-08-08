@@ -1,0 +1,38 @@
+[
+    {
+        "_id": 56,
+        "firstName": "Juan",
+        "lastName": "Medina",
+        "email": "medina@medina.com",
+        "age": "23",
+        "password": "$2b$10$YYGlNN.fbd82QzTdPHev7OldDbBeSW6cxf5qRmVOajUNJLgRXYuqK",
+        "rol": "user"
+    },
+    {
+        "_id": 83,
+        "firstName": "Pali",
+        "lastName": "Yafar",
+        "email": "pali@gmail.com",
+        "age": "37",
+        "password": "$2b$10$MvU4QvAtpSSei0P1P/220.iXezZiN3PED2iJKGKJsgYtTBUqIPJby",
+        "rol": "user"
+    },
+    {
+        "_id": 85,
+        "firstName": "Test2",
+        "lastName": "Test2",
+        "email": "test2@test.com",
+        "age": "22",
+        "password": "$2b$10$DiDepOFlvqfjtaXcDH5jIu4/uWCRVgO9BTIiFil4eOcH8CQHEJnKK",
+        "rol": "user"
+    },
+    {
+        "_id": 81,
+        "firstName": "Prueba",
+        "lastName": "Prueba",
+        "email": "prueba@prueba.com",
+        "age": "22",
+        "password": "$2b$10$98AI4poiviMjzK45mdYRfeur4b9OUs6FPM2K8Uk0EbweGCApPrQxW",
+        "rol": "user"
+    }
+]

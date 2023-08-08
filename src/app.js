@@ -8,7 +8,7 @@ import { iniPassport } from "./config/passport.config.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { chatRouter } from "./routes/chat.router.js";
 import { dbCarts } from "./routes/dbCarts.router.js";
-// import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
+import { dbHtmlCarts } from "./routes/dbHtmlCarts.router.js";
 import { dbHtmlProducts } from "./routes/dbHtmlProducts.router.js";
 import { dbProducts } from "./routes/dbProducts.router.js";
 import { homeRouter } from "./routes/home.router.js";
@@ -18,11 +18,12 @@ import { realTimeProducts } from "./routes/realtimeproducts.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { socketServer } from "./utils/socketServer.js";
+import MongoSingleton from "./singleton.js";
 import env from "./config/enviroment.config.js";
 
 const app = express();
 const port = env.port;
-connectMongo();
+// connectMongo();
 app.use(
   session({
     secret: "asdee1233sd23321",
@@ -64,7 +65,7 @@ app.get("/error-auth", (_, res) => {
 });
 app.use("/api/dbproducts", dbProducts);
 app.use("/html/dbproducts", dbHtmlProducts);
-// app.use("/html/dbcarts", dbHtmlCarts);
+app.use("/html/dbcarts", dbHtmlCarts);
 app.use("/api/dbcarts", dbCarts);
 app.use("/api/sessions/auth", authRouter);
 app.get(
@@ -85,6 +86,64 @@ app.get(
     res.redirect("/html/dbproducts");
   }
 );
+
+
+import nodemailer from "nodemailer";
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: process.env.GOOGLE_EMAIL,
+    pass: process.env.GOOGLE_PASS,
+  },
+});
+
+app.get("/mail", async (req, res) => {
+  const result = await transport.sendMail({
+    from: process.env.GOOGLE_EMAIL,
+    to: "guillermofergnani@gmail.com, francoivangallucio@gmail.com",
+    subject: "Hola que tal",
+    html: `
+              <div>
+                  <h1>A ver si llegaa</h1>
+                  <img src="cid:image1" />
+              </div>
+          `,
+    attachments: [
+      {
+        filename: "image1.gif",
+        path: __dirname + "/images/image1.gif",
+        cid: "image1",
+      },
+    ],
+  });
+
+  console.log(result);
+  res.send("Email sent");
+});
+
+
+//TWILIO//
+
+import twilio from "twilio";
+
+const client = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+
+app.get("/sms", async (req, res) => {
+  const result = await client.messages.create({
+    body: "que onda che",
+    from: process.env.TWILIO_PHONE_NUMBER,
+    to: "+541130966859",
+  });
+
+  console.log(result);
+
+  res.send("SMS sent");
+});
+
 
 app.get("*", (_, res) => {
   return res

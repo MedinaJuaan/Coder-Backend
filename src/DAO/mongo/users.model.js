@@ -1,5 +1,5 @@
-import { MongooseUsersModel } from "../models/mongoose/users.mongoose.js";
-
+import { MongooseUsersModel } from "./mongoose/users.mongoose.js";
+import { cartsModel } from "./carts.model.js";
 class UsersModel {
   async getAll() {
     const users = await MongooseUsersModel.find(
@@ -11,6 +11,7 @@ class UsersModel {
         lastName: true,
         age: true,
         rol: true,
+        cartID: true
       }
     );
     return users;
@@ -31,7 +32,10 @@ class UsersModel {
       password,
       rol: "user",
     });
-
+    const newCart = await cartsModel.createCart(newUser._id);
+    newUser.cart = newCart._id;
+    await newUser.save();
+  
     return newUser;
   }
 
@@ -63,6 +67,7 @@ class UsersModel {
         firstName: true,
         password: true,
         rol: true,
+        cartID : true
       }
     );
     return user || false;
@@ -76,6 +81,7 @@ class UsersModel {
       lastName: true,
       age: true,
       rol: true,
+      cartID : true
     });
     return user || false;
   }

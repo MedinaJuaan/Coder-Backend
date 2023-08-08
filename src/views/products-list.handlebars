@@ -1,25 +1,27 @@
 <div class="text-center">
-<h1>Listado de productos</h1>
+  <h1>Listado de productos</h1>
 
 </div>
-	{{#if username}}
-		<div class="flex-row text-end mt-3 ms-3 w-100">
-			<div class="d-flex justify-content-end align-items-center">
-				<h4>Hola, {{username}}. Tu rol es {{rol}}</h4>
-				<a
-					href="/api/sessions/auth/logout"
-					class="btn btn-danger btn-sm btnLogin ms-2 me-5 mb-1"
-				>
-					<i class="bi bi-box-arrow-left me-2"></i>Logout
-				</a>
-			</div>
-		</div>
-	{{/if}}
+{{#if username}}
+  <div class="flex-row text-end mt-3 ms-3 w-100">
+    <div class="d-flex justify-content-end align-items-center">
+      <h4>Hola, {{username}}. Tu rol es {{rol}}</h4>
+      <a
+        href="/api/sessions/auth/logout"
+        class="btn btn-danger btn-sm btnLogin ms-2 me-5 mb-1"
+      >
+        <i class="bi bi-box-arrow-left me-2"></i>Logout
+      </a>
+    </div>
+  </div>
+{{/if}}
 <div class="row gx-5">
 
-{{#each products}}
+  {{#each products}}
     <div class="card" style="width: 18rem;">
-      <img src={{this.image}} class="card-img-top" alt="..." />
+      <div>
+        <img src={{this.image}} class="card-img-top" alt="..." />
+      </div>
       <div class="card-body">
         <h5 class="card-title">{{this.title}}</h5>
         <p class="card-text">{{this.description}}</p>
@@ -28,17 +30,35 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Precio: {{this.price}}</li>
           <li class="list-group-item">Categoria: {{this.category}}</li>
+          <li class="list-group-item">Stock: {{this.stock}}</li>
         </ul>
       </div>
+      <div>
+        <form
+          action="/api/dbcarts/{{../cartId}}/product/{{this.productId}}"
+          method="POST"
+        >
+          <button type="submit" class="btn btn-primary">Comprar</button>
+        </form>
+      </div>
     </div>
-{{/each}}
+  {{/each}}
 </div>
 <p class="text-center">
   {{#if hasPrevPage}}
-  <a href="/html/dbproducts?page={{prevPage}}" style="text-decoration: none">Anterior</a>
+    <a
+      href="/html/dbproducts?page={{prevPage}}"
+      style="text-decoration: none"
+    >Anterior</a>
   {{/if}}
-  pagina {{page}} de {{totalPages}}
+  pagina
+  {{page}}
+  de
+  {{totalPages}}
   {{#if hasNextPage}}
-  <a href="/html/dbproducts?page={{nextPage}}" style="text-decoration: none">Siguiente</a>
+    <a
+      href="/html/dbproducts?page={{nextPage}}"
+      style="text-decoration: none"
+    >Siguiente</a>
   {{/if}}
 </p>

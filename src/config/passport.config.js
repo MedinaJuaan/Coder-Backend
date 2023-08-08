@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import local from "passport-local";
-import { MongooseUsersModel } from "../DAO/models/mongoose/users.mongoose.js";
+import { MongooseUsersModel } from "../DAO/mongo/mongoose/users.mongoose.js";
 import { usersService } from "../services/users.service.js";
 import { isValidPassword } from "../utils/bcrypt.js";
 import env from "./enviroment.config.js"
@@ -27,8 +27,6 @@ export function iniPassport() {
               "X-Github-Api-Version": "2022-11-28",
             },
           });
-          // console.log(profile)
-
 
           const emails = await res.json();
           const emailDetail = emails.find((email) => email.verified == true);
@@ -71,7 +69,8 @@ export function iniPassport() {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await MongooseUsersModel.findOne({ email: username });
+          const user = await MongooseUsersModel.findOne({email: username});
+          console.log(user)
           if (!user) {
             console.log("User Not Found with username (email) " + username);
             return done(null, false);
@@ -107,7 +106,7 @@ export function iniPassport() {
             return done(null, false);
           }
   
-          const userCreated = await usersService.create({
+          const userCreated = await usersService.createUser({
             firstName,
             lastName,
             email,
@@ -123,7 +122,6 @@ export function iniPassport() {
             email: userCreated.email,
             rol: userCreated.rol,
           };
-  
           return done(null, serializedUser);
         } catch (e) {
           console.log("Error in register");

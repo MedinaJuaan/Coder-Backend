@@ -1,7 +1,10 @@
-import { usersModel } from "../DAO/models/users.model.js";
 import { createHash, isValidPassword } from "../utils/bcrypt.js";
+import importModels from "../DAO/factory.js";
+const models = await importModels()
+const usersModel = models.users
 
 class UsersService {
+
   async getUserById(_id) {
     const user = await usersModel.getUserById(_id);
     return user;
@@ -12,7 +15,7 @@ class UsersService {
     return users;
   }
 
-  async create({ firstName, lastName, email, age, password }) {
+  async createUser({ firstName, lastName, email, age, password }) {
     const existingUser = await this.findUserByEmail(email);
 
     if (existingUser) {

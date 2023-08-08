@@ -1,8 +1,9 @@
-import { productsModel } from "../DAO/models/products.model.js";
-
+import importModels from "../DAO/factory.js";
+const models = await importModels()
+const productsModel = models.products
 class ProductsService {
-  async getProducts(queryParams) {
-    const products = await productsModel.getProducts(queryParams);
+  async get(queryParams) {
+    const products = await productsModel.get(queryParams);
 
     const response = {
       status: "success",
@@ -23,23 +24,23 @@ class ProductsService {
     return response;
   }
 
-  async getProductById(id) {
-    const product = await productsModel.getProductById(id);
+  async getById(id) {
+    const product = await productsModel.getById(id);
     return product;
   }
 
-  async deleteProduct(id) {
-    const deletedProduct = await productsModel.deleteProduct(id);
+  async delete(id) {
+    const deletedProduct = await productsModel.delete(id);
     return deletedProduct;
   }
 
-  async updateProduct(id, updatedData) {
-    const updatedProduct = await productsModel.updateProduct(id, updatedData);
+  async update(id, updatedData) {
+    const updatedProduct = await productsModel.update(id, updatedData);
     return updatedProduct;
   }
 
-  async createProduct(newProduct) {
-    const createdProduct = await productsModel.createProduct(newProduct);
+  async create(newProduct) {
+    const createdProduct = await productsModel.create(newProduct);
     return createdProduct;
   }
 }

@@ -1,4 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
+
 export const MongooseUsersModel = model(
   "users",
   new Schema({
@@ -7,12 +8,6 @@ export const MongooseUsersModel = model(
     email: { type: String, required: true, max: 100 },
     age: { type: Number, required: false },
     password: { type: String, required: true, max: 100 },
-    cartID: {
-      type: Schema.Types.ObjectId,
-      ref: "carts",
-      required: true,
-      default: () => new mongoose.Types.ObjectId(),
-    },
     rol: { type: String, default: "user", required: true },
-  })
-);
+    cart: { type: Schema.Types.ObjectId, ref: "carts" },
+  }))

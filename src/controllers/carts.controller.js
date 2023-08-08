@@ -41,15 +41,10 @@ class CartsController {
 
   async getCartById(req, res) {
     try {
-      const { cid } = req.params;
+      const {cid} = req.params;
       const cartProducts = await cartsService.getCartById(cid);
-
       if (cartProducts.length > 0) {
-        res.status(200).json({
-          status: "success",
-          msg: "Productos del carrito",
-          data: cartProducts,
-        });
+        return res.status(200).render("carts", cartProducts);
       } else {
         res.status(404).json({
           status: "error",
@@ -127,11 +122,7 @@ class CartsController {
       const { quantity } = req.body;
       const cart = await cartsService.addProduct(cid, pid, quantity);
       if (cart) {
-        res.status(201).json({
-          status: "success",
-          msg: "Producto agregado al carrito",
-          data: cart,
-        });
+        return res.redirect(`/api/dbCarts/${cid}`);
       } else {
         res.status(404).json({
           status: "error",

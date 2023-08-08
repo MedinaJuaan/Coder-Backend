@@ -1,7 +1,7 @@
 import { MongooseProductModel } from "./mongoose/products.mongoose.js";
 
 class ProductsModel {
-  async getProducts(queryParams) {
+  async get(queryParams) {
     const { limit = 10, page = 1, sort } = queryParams;
     const options = {
       page: parseInt(page),
@@ -13,17 +13,17 @@ class ProductsModel {
     return result; 
   }
 
-  async getProductById(_id) {
+  async getById(_id) {
     const product = await MongooseProductModel.findOne({ _id });
     return product;
   }
 
-  async deleteProduct(_id) {
+  async delete(_id) {
     const deleteProduct = await MongooseProductModel.findOneAndDelete({ _id });
     return deleteProduct;
   }
 
-  async updateProduct(_id, updatedData) {
+  async update(_id, updatedData) {
     const productUpdated = await MongooseProductModel.findOneAndUpdate(
       { _id },
       updatedData,
@@ -32,7 +32,7 @@ class ProductsModel {
     return productUpdated;
   }
 
-  async createProduct(newProduct) {
+  async create(newProduct) {
     const createdProduct = await MongooseProductModel.create(newProduct);
     return createdProduct;
   }

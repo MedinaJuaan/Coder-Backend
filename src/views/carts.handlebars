@@ -1,37 +1,31 @@
-<h1>Carrito de compras</h1>
-{{#if products.length}}
-<div class="container">
-<div id="product-list" class="row gx-5">
-  <div class="container">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Imagen</th>
-          <th>Título</th>
-          <th>Descripción</th>
-          <th>Precio</th>
-          <th>ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each products}}
-        <tr>
-          <td>
-            <img src="{{this.image}}" class="img-thumbnail" alt="..." />
-          </td>
-          <td>{{this.title}}</td>
-          <td>{{this.description}}</td>
-          <td>{{this.price}}</td>
-          <td>{{this._id}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
 
+<div class="text-center">
+  <h1>Carrito de compras</h1>
 </div>
-        {{else}}
-  <p>No hay productos en el carrito.</p>
-{{/if}}
 
-  <script src="js/index.js"></script>
+<ul>
+  {{#each cartProducts}}
+    <li class="card">
+      <div>
+        <img src="{{this.image}}" class="card-img-top" alt="..." />
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Precio: {{price}}</li>
+        <li class="list-group-item">Cantidad: {{quantity}}</li>
+      </ul>
+      <div>
+        <form action="/api/dbcarts/{{../cartProducts._id}}/products/" method="DELETE">
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </li>
+  {{/each}}
+</ul>
+
+<div class="text-center mt-3">
+  <a href="/html/dbproducts" class="btn btn-primary">Seguir comprando</a>
+</div>

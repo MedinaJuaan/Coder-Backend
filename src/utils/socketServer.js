@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
-import { ProductManager } from "../DAO/helpers/productManager.js";
-import { MsgModel } from "../DAO/models/mongoose/msgs.mongoose.js";
+import { ProductManager } from "../DAO/fileStore/productManager.js";
+import { MsgModel } from "../DAO/mongo/mongoose/msgs.mongoose.js";
 
 export function socketServer(httpServer) {
   const socketServer = new Server(httpServer);
@@ -23,14 +23,14 @@ export function socketServer(httpServer) {
     });
 
     socket.on("newProduct", async (data) => {
-      productManager.addProduct(data);
-      const products = await productManager.getProducts();
+      productManager.create(data);
+      const products = await productManager.get();
       socketServer.emit("arrayOfProducts", products);
     });
 
     socket.on("deleteProduct", async (id) => {
-      productManager.deleteProduct(id);
-      const products = await productManager.getProducts();
+      productManager.delete(id);
+      const products = await productManager.get();
       socketServer.emit("arrayOfProducts", products);
     });
   });

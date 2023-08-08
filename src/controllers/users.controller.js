@@ -23,6 +23,7 @@ class UsersController {
       try {
         const { _id } = req.params;
         const user = await usersService.getUserById(_id);
+        console.log(user)
         return res.status(200).json({
           status: "success",
           msg: "Usuario encontrado",
@@ -50,7 +51,7 @@ class UsersController {
           });
         }
   
-        const newUser = await usersService.create({
+        const newUser = await usersService.createUser({
           firstName,
           lastName,
           email,

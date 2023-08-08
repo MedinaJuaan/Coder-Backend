@@ -4,4 +4,4 @@ import checkLogin from "../middlewares/checklogin.js"
 export const dbHtmlProducts = express.Router();
 
 
-dbHtmlProducts.get('/', checkLogin, productsController.getProducts);
+dbHtmlProducts.get('/', productsController.get);
